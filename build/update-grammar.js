@@ -39,11 +39,11 @@ function adaptToJavaScript(grammar) {
 }
 
 
-function getCommitSha(repoPath) {
-	var commitInfo = 'https://api.github.com/repos/Microsoft/TypeScript-TmLanguage/commits?path=' + repoPath;
+function getCommitSha(branchId) {
+	var commitInfo = 'https://api.github.com/repos/Microsoft/TypeScript-TmLanguage/branches/' + branchId;
 	return download(commitInfo).then(function (content) {
 		try {
-			let lastCommit = JSON.parse(content)[0];
+			let lastCommit = JSON.parse(content)["commit"];
 			return Promise.resolve({
 				commitSha: lastCommit.sha,
 				commitDate: lastCommit.commit.author.date
@@ -89,7 +89,7 @@ exports.update = function (branchId, repoPath, dest, modifyGrammar) {
 		if (modifyGrammar) {
 			modifyGrammar(grammar);
 		}
-		return getCommitSha(repoPath).then(function (info) {
+		return getCommitSha(branchId).then(function (info) {
 			if (info) {
 				grammar.version = 'https://github.com/Microsoft/TypeScript-TmLanguage/commit/' + info.commitSha;
 			}
