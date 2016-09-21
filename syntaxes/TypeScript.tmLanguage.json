@@ -2783,5 +2783,5 @@
 			"match": "(?<!\\.|\\$)\\b(get|set)\\b(?!\\$)"
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/9c7430d428378fd4ffa788d7b487629b38a44c78"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/46a048d16783b475bc8053aa0952c35d13183805"
 }

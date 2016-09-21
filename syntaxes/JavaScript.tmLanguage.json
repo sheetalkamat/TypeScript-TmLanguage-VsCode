@@ -15,9 +15,6 @@
 		"statements": {
 			"patterns": [
 				{
-					"include": "#jsx"
-				},
-				{
 					"include": "#string"
 				},
 				{
@@ -2914,8 +2911,8 @@
 		},
 		"jsx-tag-without-attributes": {
 			"name": "meta.tag.without-attributes.js",
-			"begin": "(<)([_$a-zA-Z][-$\\w.]*(?<!\\.|-))(>)",
-			"end": "(</)([_$a-zA-Z][-$\\w.]*(?<!\\.|-))(>)",
+			"begin": "(<)\\s*([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\\s*(>)",
+			"end": "(</)\\s*([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\\s*(>)",
 			"beginCaptures": {
 				"1": {
 					"name": "punctuation.definition.tag.begin.js"
@@ -2946,18 +2943,12 @@
 			]
 		},
 		"jsx-tag": {
-			"name": "meta.tag.js",
-			"begin": "(?x)\n  (<)\n  ([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\n  (?=\\s+(?!\\?)|/?>)",
-			"beginCaptures": {
-				"1": {
-					"name": "punctuation.definition.tag.begin.js"
-				},
-				"2": {
-					"name": "entity.name.tag.js"
-				}
-			},
-			"end": "(/>)|(?:(</)([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\\s*(>))",
+			"begin": "(?x)\n  (?<=[({\\[,?=>]|&&|\\|\\||\\?|\\Wreturn|^return|\\Wdefault|^)\\s*\n  (?!(<)\\s*([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\\s*(>)) #look ahead is not start of tag without attributes\n  (?!<\\s*[_$[:alpha:]][_$[:alnum:]]*((\\s+extends\\s+[^=>])|,)) # look ahead is not type parameter of arrow\n  (?=(<)\\s*\n  ([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\n  (?=\\s+(?!\\?)|/?>))",
+			"end": "(/>)|(?:(</)\\s*([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\\s*(>))",
 			"endCaptures": {
+				"0": {
+					"name": "meta.tag.js"
+				},
 				"1": {
 					"name": "punctuation.definition.tag.end.js"
 				},
@@ -2973,32 +2964,47 @@
 			},
 			"patterns": [
 				{
-					"begin": "\\G(?![/]?>)",
-					"end": "(?=[/]?>)",
-					"patterns": [
-						{
-							"include": "#comment"
-						},
-						{
-							"include": "#jsx-tag-attributes"
-						},
-						{
-							"include": "#jsx-tag-attributes-illegal"
-						}
-					]
-				},
-				{
-					"begin": "(>)",
+					"name": "meta.tag.js",
+					"begin": "(?x)\n  (<)\\s*\n  ([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\n  (?=\\s+(?!\\?)|/?>)",
 					"beginCaptures": {
 						"1": {
-							"name": "punctuation.definition.tag.end.js"
+							"name": "punctuation.definition.tag.begin.js"
+						},
+						"2": {
+							"name": "entity.name.tag.js"
 						}
 					},
-					"end": "(?=</)",
-					"contentName": "meta.jsx.children.tsx",
+					"end": "(?=(/>)|(?:(</)\\s*([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\\s*(>)))",
 					"patterns": [
 						{
-							"include": "#jsx-children"
+							"begin": "\\G(?![/]?>)",
+							"end": "(?=[/]?>)",
+							"patterns": [
+								{
+									"include": "#comment"
+								},
+								{
+									"include": "#jsx-tag-attributes"
+								},
+								{
+									"include": "#jsx-tag-attributes-illegal"
+								}
+							]
+						},
+						{
+							"begin": "(>)",
+							"beginCaptures": {
+								"1": {
+									"name": "punctuation.definition.tag.end.js"
+								}
+							},
+							"end": "(?=</)",
+							"contentName": "meta.jsx.children.tsx",
+							"patterns": [
+								{
+									"include": "#jsx-children"
+								}
+							]
 						}
 					]
 				}
@@ -3042,5 +3048,5 @@
 			]
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/9c7430d428378fd4ffa788d7b487629b38a44c78"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/46a048d16783b475bc8053aa0952c35d13183805"
 }
