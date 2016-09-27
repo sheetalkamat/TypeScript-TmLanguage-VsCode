@@ -955,6 +955,9 @@
 					"include": "#property-accessor"
 				},
 				{
+					"include": "#expression"
+				},
+				{
 					"include": "#punctuation-comma"
 				},
 				{
@@ -1045,7 +1048,7 @@
 		},
 		"method-declaration": {
 			"name": "meta.method.declaration.js",
-			"begin": "(?<!\\.|\\$)(?:\\b(abstract)\\s+)?(?:\\b(public|private|protected)\\s+)?(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)?(?=((\\bnew)|(?:\\b(constructor)\\b)|((?:(\\*)\\s*)?((?:[_$[:alpha:]][_$[:alnum:]]*)|(?:\\'[^']*\\')|(?:\\\"[^\"]*\\\")|(?:\\[[^\\]]*\\]))\\s*(\\??)))?\\s*[\\(\\<])",
+			"begin": "(?<!\\.|\\$)(?:\\b(abstract)\\s+)?(?:\\b(public|private|protected)\\s+)?(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)?(?:(?:\\b(?:(new)|(constructor))\\b(?!\\$))|(?:(\\*)\\s*)?(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'[^']*\\')|(\\\"[^\"]*\\\")|(\\[[^\\]]*\\]))\\s*(\\??))?\\s*[\\(\\<]))",
 			"beginCaptures": {
 				"1": {
 					"name": "storage.modifier.js"
@@ -1058,6 +1061,15 @@
 				},
 				"4": {
 					"name": "storage.type.property.js"
+				},
+				"5": {
+					"name": "keyword.operator.new.js"
+				},
+				"6": {
+					"name": "storage.type.js"
+				},
+				"7": {
+					"name": "keyword.generator.asterisk.js"
 				}
 			},
 			"end": "(?=\\}|;|,)|(?<=\\})",
@@ -1087,7 +1099,7 @@
 		},
 		"method-overload-declaration": {
 			"name": "meta.method.overload.declaration.js",
-			"begin": "(?<!\\.|\\$)(?:\\b(abstract)\\s+)?(?:\\b(public|private|protected)\\s+)?(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)?(?=((\\bnew)|(?:\\b(constructor)\\b)|((?:(\\*)\\s*)?((?:[_$[:alpha:]][_$[:alnum:]]*)|(?:\\'[^']*\\')|(?:\\\"[^\"]*\\\")|(?:\\[[^\\]]*\\]))\\s*(\\??)))?\\s*[\\(\\<])",
+			"begin": "(?<!\\.|\\$)(?:\\b(abstract)\\s+)?(?:\\b(public|private|protected)\\s+)?(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)?(?:(?:\\b(?:(new)|(constructor))\\b(?!\\$))|(?:(\\*)\\s*)?(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'[^']*\\')|(\\\"[^\"]*\\\")|(\\[[^\\]]*\\]))\\s*(\\??))?\\s*[\\(\\<]))",
 			"beginCaptures": {
 				"1": {
 					"name": "storage.modifier.js"
@@ -1096,10 +1108,19 @@
 					"name": "storage.modifier.js"
 				},
 				"3": {
-					"name": "storage.modifier.js"
+					"name": "storage.modifier.async.js"
 				},
 				"4": {
 					"name": "storage.type.property.js"
+				},
+				"5": {
+					"name": "keyword.operator.new.js"
+				},
+				"6": {
+					"name": "storage.type.js"
+				},
+				"7": {
+					"name": "keyword.generator.asterisk.js"
 				}
 			},
 			"end": "(?=\\(|\\<)",
@@ -1114,26 +1135,10 @@
 			"end": "(?=\\(|\\<)",
 			"patterns": [
 				{
-					"match": "(\\*)\\s*",
-					"captures": {
-						"1": {
-							"name": "keyword.generator.asterisk.js"
-						}
-					}
-				},
-				{
 					"include": "#string"
 				},
 				{
 					"include": "#array-literal"
-				},
-				{
-					"name": "keyword.operator.new.js",
-					"match": "\\bnew(?=\\s*[\\(\\<])"
-				},
-				{
-					"name": "storage.type.js",
-					"match": "\\bconstructor\\b(?=\\s*[\\(\\<])"
 				},
 				{
 					"name": "entity.name.function.js",
@@ -1147,7 +1152,7 @@
 		},
 		"indexer-declaration": {
 			"name": "meta.indexer.declaration.js",
-			"begin": "(?:(?<!\\.|\\$)\\b(readonly)\\s*)?(\\[)",
+			"begin": "(?:(?<!\\.|\\$)\\b(readonly)\\s*)?(\\[)(?=\\s*[_$[:alpha:]][_$[:alnum:]]*\\s*[:\\]])",
 			"beginCaptures": {
 				"1": {
 					"name": "storage.modifier.js"
@@ -1176,7 +1181,7 @@
 		},
 		"indexer-parameter": {
 			"name": "meta.indexer.parameter.js",
-			"match": "([_$[:alpha:]][_$[:alnum:]]*)(?=\\:)",
+			"match": "([_$[:alpha:]][_$[:alnum:]]*)",
 			"captures": {
 				"1": {
 					"name": "variable.parameter.js"
@@ -1536,6 +1541,9 @@
 				},
 				{
 					"include": "#string"
+				},
+				{
+					"include": "#numeric-literal"
 				},
 				{
 					"include": "#type-primitive"
@@ -2831,12 +2839,7 @@
 							"name": "punctuation.whitespace.comment.leading.js"
 						}
 					},
-					"end": "\\n",
-					"endCaptures": {
-						"0": {
-							"name": "comment.line.double-slash.js"
-						}
-					},
+					"end": "(?=$)",
 					"patterns": [
 						{
 							"name": "comment.line.double-slash.js",
@@ -2846,7 +2849,7 @@
 									"name": "punctuation.definition.comment.js"
 								}
 							},
-							"end": "(?=\\n)"
+							"end": "(?=$)"
 						}
 					]
 				}
@@ -3298,5 +3301,5 @@
 			]
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/34b250990e50ab77c7e48d078d2e6480981358fb"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/aeb3fc96030566ec8f26fc8daa3f7e20e211e462"
 }

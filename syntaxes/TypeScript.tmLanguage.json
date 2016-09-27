@@ -951,6 +951,9 @@
 					"include": "#property-accessor"
 				},
 				{
+					"include": "#expression"
+				},
+				{
 					"include": "#punctuation-comma"
 				},
 				{
@@ -1041,7 +1044,7 @@
 		},
 		"method-declaration": {
 			"name": "meta.method.declaration.ts",
-			"begin": "(?<!\\.|\\$)(?:\\b(abstract)\\s+)?(?:\\b(public|private|protected)\\s+)?(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)?(?=((\\bnew)|(?:\\b(constructor)\\b)|((?:(\\*)\\s*)?((?:[_$[:alpha:]][_$[:alnum:]]*)|(?:\\'[^']*\\')|(?:\\\"[^\"]*\\\")|(?:\\[[^\\]]*\\]))\\s*(\\??)))?\\s*[\\(\\<])",
+			"begin": "(?<!\\.|\\$)(?:\\b(abstract)\\s+)?(?:\\b(public|private|protected)\\s+)?(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)?(?:(?:\\b(?:(new)|(constructor))\\b(?!\\$))|(?:(\\*)\\s*)?(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'[^']*\\')|(\\\"[^\"]*\\\")|(\\[[^\\]]*\\]))\\s*(\\??))?\\s*[\\(\\<]))",
 			"beginCaptures": {
 				"1": {
 					"name": "storage.modifier.ts"
@@ -1054,6 +1057,15 @@
 				},
 				"4": {
 					"name": "storage.type.property.ts"
+				},
+				"5": {
+					"name": "keyword.operator.new.ts"
+				},
+				"6": {
+					"name": "storage.type.ts"
+				},
+				"7": {
+					"name": "keyword.generator.asterisk.ts"
 				}
 			},
 			"end": "(?=\\}|;|,)|(?<=\\})",
@@ -1083,7 +1095,7 @@
 		},
 		"method-overload-declaration": {
 			"name": "meta.method.overload.declaration.ts",
-			"begin": "(?<!\\.|\\$)(?:\\b(abstract)\\s+)?(?:\\b(public|private|protected)\\s+)?(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)?(?=((\\bnew)|(?:\\b(constructor)\\b)|((?:(\\*)\\s*)?((?:[_$[:alpha:]][_$[:alnum:]]*)|(?:\\'[^']*\\')|(?:\\\"[^\"]*\\\")|(?:\\[[^\\]]*\\]))\\s*(\\??)))?\\s*[\\(\\<])",
+			"begin": "(?<!\\.|\\$)(?:\\b(abstract)\\s+)?(?:\\b(public|private|protected)\\s+)?(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)?(?:(?:\\b(?:(new)|(constructor))\\b(?!\\$))|(?:(\\*)\\s*)?(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'[^']*\\')|(\\\"[^\"]*\\\")|(\\[[^\\]]*\\]))\\s*(\\??))?\\s*[\\(\\<]))",
 			"beginCaptures": {
 				"1": {
 					"name": "storage.modifier.ts"
@@ -1092,10 +1104,19 @@
 					"name": "storage.modifier.ts"
 				},
 				"3": {
-					"name": "storage.modifier.ts"
+					"name": "storage.modifier.async.ts"
 				},
 				"4": {
 					"name": "storage.type.property.ts"
+				},
+				"5": {
+					"name": "keyword.operator.new.ts"
+				},
+				"6": {
+					"name": "storage.type.ts"
+				},
+				"7": {
+					"name": "keyword.generator.asterisk.ts"
 				}
 			},
 			"end": "(?=\\(|\\<)",
@@ -1110,26 +1131,10 @@
 			"end": "(?=\\(|\\<)",
 			"patterns": [
 				{
-					"match": "(\\*)\\s*",
-					"captures": {
-						"1": {
-							"name": "keyword.generator.asterisk.ts"
-						}
-					}
-				},
-				{
 					"include": "#string"
 				},
 				{
 					"include": "#array-literal"
-				},
-				{
-					"name": "keyword.operator.new.ts",
-					"match": "\\bnew(?=\\s*[\\(\\<])"
-				},
-				{
-					"name": "storage.type.ts",
-					"match": "\\bconstructor\\b(?=\\s*[\\(\\<])"
 				},
 				{
 					"name": "entity.name.function.ts",
@@ -1143,7 +1148,7 @@
 		},
 		"indexer-declaration": {
 			"name": "meta.indexer.declaration.ts",
-			"begin": "(?:(?<!\\.|\\$)\\b(readonly)\\s*)?(\\[)",
+			"begin": "(?:(?<!\\.|\\$)\\b(readonly)\\s*)?(\\[)(?=\\s*[_$[:alpha:]][_$[:alnum:]]*\\s*[:\\]])",
 			"beginCaptures": {
 				"1": {
 					"name": "storage.modifier.ts"
@@ -1172,7 +1177,7 @@
 		},
 		"indexer-parameter": {
 			"name": "meta.indexer.parameter.ts",
-			"match": "([_$[:alpha:]][_$[:alnum:]]*)(?=\\:)",
+			"match": "([_$[:alpha:]][_$[:alnum:]]*)",
 			"captures": {
 				"1": {
 					"name": "variable.parameter.ts"
@@ -1532,6 +1537,9 @@
 				},
 				{
 					"include": "#string"
+				},
+				{
+					"include": "#numeric-literal"
 				},
 				{
 					"include": "#type-primitive"
@@ -2840,12 +2848,7 @@
 							"name": "punctuation.whitespace.comment.leading.ts"
 						}
 					},
-					"end": "\\n",
-					"endCaptures": {
-						"0": {
-							"name": "comment.line.double-slash.ts"
-						}
-					},
+					"end": "(?=$)",
 					"patterns": [
 						{
 							"name": "comment.line.double-slash.ts",
@@ -2855,7 +2858,7 @@
 									"name": "punctuation.definition.comment.ts"
 								}
 							},
-							"end": "(?=\\n)"
+							"end": "(?=$)"
 						}
 					]
 				}
@@ -3033,5 +3036,5 @@
 			"match": "(?<!\\.|\\$)\\b(get|set)\\b(?!\\$)"
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/34b250990e50ab77c7e48d078d2e6480981358fb"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/aeb3fc96030566ec8f26fc8daa3f7e20e211e462"
 }
