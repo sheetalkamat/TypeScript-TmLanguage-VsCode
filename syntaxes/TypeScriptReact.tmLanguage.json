@@ -127,11 +127,11 @@
 							"include": "#variable-initializer"
 						},
 						{
-							"begin": "\\G",
-							"end": "(?!\\G)(?=$|[;,=}]|(\\s+(of|in)\\s+))",
+							"begin": "(?<=\\{)",
+							"end": "(?=$|[;,=}]|(\\s+(of|in)\\s+))",
 							"patterns": [
 								{
-									"begin": "\\G",
+									"begin": "(?<=\\{)",
 									"end": "\\}",
 									"endCaptures": {
 										"0": {
@@ -168,11 +168,11 @@
 							"include": "#variable-initializer"
 						},
 						{
-							"begin": "\\G",
-							"end": "(?!\\G)(?=$|[;,=}]|(\\s+(of|in)\\s+))",
+							"begin": "(?<=\\[)",
+							"end": "(?=$|[;,=}]|(\\s+(of|in)\\s+))",
 							"patterns": [
 								{
-									"begin": "\\G",
+									"begin": "(?<=\\[)",
 									"end": "\\]",
 									"endCaptures": {
 										"0": {
@@ -1477,7 +1477,7 @@
 					"name": "keyword.operator.type.annotation.tsx"
 				}
 			},
-			"end": "(?<!:)((?=$)|(?=\\{|;|//))",
+			"end": "(?<!:)((?=$)|(?=\\{|;|//|\\}))",
 			"patterns": [
 				{
 					"include": "#comment"
@@ -2248,7 +2248,7 @@
 					"patterns": [
 						{
 							"name": "meta.object-literal.key.tsx",
-							"begin": "\\G(?<!:)",
+							"begin": "(?=(?:(?:\\'[^']*\\')|(?:\\\"[^\"]*\\\")|(?:\\[[^\\]]*\\]))\\s*:)",
 							"end": ":",
 							"endCaptures": {
 								"0": {
@@ -3300,5 +3300,5 @@
 			]
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/aeb3fc96030566ec8f26fc8daa3f7e20e211e462"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/e72f95555e20f6fed41f11042a1e420fc6bc75e2"
 }

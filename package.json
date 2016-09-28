@@ -11,7 +11,7 @@
 	},
     "icon": "logo.png",
 	"publisher": "ms-vscode",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"engines": { "vscode": "*" },
 	"scripts": {
 		"update-grammar": "node ./build/update-grammar.js master ./syntaxes/"
