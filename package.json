@@ -1,50 +1,54 @@
 {
-	"name": "typescript-javascript-grammar",
-	"private": true,
+    "name": "typescript-javascript-grammar",
+    "private": true,
     "displayName": "Latest TypeScript and Javascript Grammar",
     "description": "The latest typescript-javascript grammar from Microsoft/TypeScript-TmLanguage",
     "license": "SEE LICENSE IN LICENSE.txt",
-	"author": "Microsoft Corporation",
+    "author": "Microsoft Corporation",
     "galleryBanner": {
-		"color": "#5c2d91",
-		"theme": "dark"
-	},
+        "color": "#5c2d91",
+        "theme": "dark"
+    },
     "icon": "logo.png",
-	"publisher": "ms-vscode",
-	"version": "0.0.2",
-	"engines": { "vscode": "*" },
-	"scripts": {
-		"update-grammar": "node ./build/update-grammar.js master ./syntaxes/"
-	},
-	"devDependencies": {
-		"fast-plist": "0.1.1"
-	},
-	"extensionDependencies": [
+    "publisher": "ms-vscode",
+    "version": "0.0.3",
+    "engines": {
+        "vscode": "*"
+    },
+    "scripts": {
+        "update-grammar": "node ./build/update-grammar.js master ./syntaxes/"
+    },
+    "devDependencies": {
+        "fast-plist": "0.1.1"
+    },
+    "extensionDependencies": [
         "vscode.typescript",
         "vscode.javascript"
     ],
-	"categories": [
-		"Languages"
-	],
+    "categories": [
+        "Languages"
+    ],
     "keywords": [
         "typeScript",
         "javascript"
     ],
-	"contributes": {
-		"grammars": [{
-			"language": "javascript",
-			"scopeName": "source.js",
-			"path": "./syntaxes/JavaScript.tmLanguage.json"
-		},
-		{
-			"language": "typescript",
-			"scopeName": "source.ts",
-			"path": "./syntaxes/TypeScript.tmLanguage.json"
-		},
-		{
-			"language": "typescriptreact",
-			"scopeName": "source.tsx",
-			"path": "./syntaxes/TypeScriptReact.tmLanguage.json"
-		}]
-	}
+    "contributes": {
+        "grammars": [
+            {
+                "language": "javascript",
+                "scopeName": "source.js",
+                "path": "./syntaxes/JavaScript.tmLanguage.json"
+            },
+            {
+                "language": "typescript",
+                "scopeName": "source.ts",
+                "path": "./syntaxes/TypeScript.tmLanguage.json"
+            },
+            {
+                "language": "typescriptreact",
+                "scopeName": "source.tsx",
+                "path": "./syntaxes/TypeScriptReact.tmLanguage.json"
+            }
+        ]
+    }
 }
