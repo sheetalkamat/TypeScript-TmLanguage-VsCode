@@ -34,7 +34,7 @@
 		"grammars": [{
 			"language": "javascript",
 			"scopeName": "source.js",
-			"path": "./syntaxes/Javascript.tmLanguage.json"
+			"path": "./syntaxes/JavaScript.tmLanguage.json"
 		},
 		{
 			"language": "typescript",
