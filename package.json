@@ -11,7 +11,7 @@
     },
     "icon": "logo.png",
     "publisher": "ms-vscode",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "engines": {
         "vscode": "*"
     },
