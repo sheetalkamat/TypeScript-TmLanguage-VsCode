@@ -227,12 +227,13 @@
 					]
 				},
 				{
-					"name": "variable.other.readwrite.tsx",
-					"match": "([_$[:alpha:]][_$[:alnum:]]*)"
+					"include": "#object-binding-pattern"
 				},
 				{
-					"name": "meta.delimiter.object.comma.tsx",
-					"match": ","
+					"include": "#destructuring-variable-rest"
+				},
+				{
+					"include": "#punctuation-comma"
 				}
 			]
 		},
@@ -248,19 +249,31 @@
 					"include": "#array-binding-pattern"
 				},
 				{
-					"name": "variable.other.readwrite.tsx",
-					"match": "([_$[:alpha:]][_$[:alnum:]]*)"
+					"include": "#destructuring-variable-rest"
 				},
 				{
-					"name": "meta.delimiter.object.comma.tsx",
-					"match": ","
+					"include": "#punctuation-comma"
 				}
 			]
 		},
+		"destructuring-variable-rest": {
+			"match": "(?:(\\.\\.\\.)\\s*)?([_$[:alpha:]][_$[:alnum:]]*)",
+			"captures": {
+				"1": {
+					"name": "keyword.operator.rest.tsx"
+				},
+				"2": {
+					"name": "variable.other.readwrite.tsx"
+				}
+			}
+		},
 		"object-binding-pattern": {
-			"begin": "\\{",
+			"begin": "(?:(\\.\\.\\.)\\s*)?(\\{)",
 			"beginCaptures": {
-				"0": {
+				"1": {
+					"name": "keyword.operator.rest.tsx"
+				},
+				"2": {
 					"name": "punctuation.definition.binding-pattern.object.tsx"
 				}
 			},
@@ -277,9 +290,12 @@
 			]
 		},
 		"array-binding-pattern": {
-			"begin": "\\[",
+			"begin": "(?:(\\.\\.\\.)\\s*)?(\\[)",
 			"beginCaptures": {
-				"0": {
+				"1": {
+					"name": "keyword.operator.rest.tsx"
+				},
+				"2": {
 					"name": "punctuation.definition.binding-pattern.array.tsx"
 				}
 			},
@@ -369,10 +385,7 @@
 					"include": "#object-literal"
 				},
 				{
-					"include": "#expression-operator"
-				},
-				{
-					"include": "#operators"
+					"include": "#expression-operators"
 				},
 				{
 					"include": "#support-objects"
@@ -799,8 +812,7 @@
 					}
 				},
 				{
-					"name": "meta.delimiter.object.comma.tsx",
-					"match": ","
+					"include": "#punctuation-comma"
 				},
 				{
 					"name": "constant.language.import-export-all.tsx",
@@ -1002,6 +1014,20 @@
 					"include": "#type-annotation"
 				},
 				{
+					"begin": "\\.\\.\\.",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.operator.spread.tsx"
+						}
+					},
+					"end": "(?=\\}|;|,|$)|(?<=\\})",
+					"patterns": [
+						{
+							"include": "#type"
+						}
+					]
+				},
+				{
 					"include": "#punctuation-comma"
 				},
 				{
@@ -1047,7 +1073,7 @@
 		},
 		"method-declaration": {
 			"name": "meta.method.declaration.tsx",
-			"begin": "(?<!\\.|\\$)(?:\\b(abstract)\\s+)?(?:\\b(public|private|protected)\\s+)?(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)?(?:(?:\\b(?:(new)|(constructor))\\b(?!\\$))|(?:(\\*)\\s*)?(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'[^']*\\')|(\\\"[^\"]*\\\")|(\\[[^\\]]*\\]))\\s*(\\??))?\\s*[\\(\\<]))",
+			"begin": "(?<!\\.|\\$)(?:\\b(abstract)\\s+)?(?:\\b(public|private|protected)\\s+)?(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)?(?:(?:\\b(?:(new)|(constructor))\\b(?!\\$|:))|(?:(\\*)\\s*)?(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'[^']*\\')|(\\\"[^\"]*\\\")|(\\[[^\\]]*\\]))\\s*(\\??))?\\s*[\\(\\<]))",
 			"beginCaptures": {
 				"1": {
 					"name": "storage.modifier.tsx"
@@ -1098,7 +1124,7 @@
 		},
 		"method-overload-declaration": {
 			"name": "meta.method.overload.declaration.tsx",
-			"begin": "(?<!\\.|\\$)(?:\\b(abstract)\\s+)?(?:\\b(public|private|protected)\\s+)?(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)?(?:(?:\\b(?:(new)|(constructor))\\b(?!\\$))|(?:(\\*)\\s*)?(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'[^']*\\')|(\\\"[^\"]*\\\")|(\\[[^\\]]*\\]))\\s*(\\??))?\\s*[\\(\\<]))",
+			"begin": "(?<!\\.|\\$)(?:\\b(abstract)\\s+)?(?:\\b(public|private|protected)\\s+)?(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)?(?:(?:\\b(?:(new)|(constructor))\\b(?!\\$|:))|(?:(\\*)\\s*)?(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'[^']*\\')|(\\\"[^\"]*\\\")|(\\[[^\\]]*\\]))\\s*(\\??))?\\s*[\\(\\<]))",
 			"beginCaptures": {
 				"1": {
 					"name": "storage.modifier.tsx"
@@ -1292,7 +1318,7 @@
 		},
 		"after-operator-block": {
 			"name": "meta.object-literal.tsx",
-			"begin": "(?<=[=(:,\\[?+!]|await|return|yield|throw|in|of|typeof|&&|\\|\\||\\*)\\s*(\\{)",
+			"begin": "(?<=[=(,\\[?+!]|await|return|yield|throw|in|of|typeof|&&|\\|\\||\\*)\\s*(\\{)",
 			"beginCaptures": {
 				"1": {
 					"name": "punctuation.definition.block.tsx"
@@ -1317,7 +1343,7 @@
 					"name": "storage.modifier.tsx"
 				},
 				"2": {
-					"name": "keyword.operator.spread.tsx"
+					"name": "keyword.operator.rest.tsx"
 				},
 				"3": {
 					"name": "variable.parameter.tsx"
@@ -1401,12 +1427,13 @@
 					]
 				},
 				{
-					"name": "variable.parameter.tsx",
-					"match": "([_$[:alpha:]][_$[:alnum:]]*)"
+					"include": "#parameter-object-binding-pattern"
 				},
 				{
-					"name": "meta.delimiter.object.comma.tsx",
-					"match": ","
+					"include": "#destructuring-parameter-rest"
+				},
+				{
+					"include": "#punctuation-comma"
 				}
 			]
 		},
@@ -1422,19 +1449,31 @@
 					"include": "#parameter-array-binding-pattern"
 				},
 				{
-					"name": "variable.parameter.tsx",
-					"match": "([_$[:alpha:]][_$[:alnum:]]*)"
+					"include": "#destructuring-parameter-rest"
 				},
 				{
-					"name": "meta.delimiter.object.comma.tsx",
-					"match": ","
+					"include": "#punctuation-comma"
 				}
 			]
 		},
+		"destructuring-parameter-rest": {
+			"match": "(?:(\\.\\.\\.)\\s*)?([_$[:alpha:]][_$[:alnum:]]*)",
+			"captures": {
+				"1": {
+					"name": "keyword.operator.rest.tsx"
+				},
+				"2": {
+					"name": "variable.parameter.tsx"
+				}
+			}
+		},
 		"parameter-object-binding-pattern": {
-			"begin": "\\{",
+			"begin": "(?:(\\.\\.\\.)\\s*)?(\\{)",
 			"beginCaptures": {
-				"0": {
+				"1": {
+					"name": "keyword.operator.rest.tsx"
+				},
+				"2": {
 					"name": "punctuation.definition.binding-pattern.object.tsx"
 				}
 			},
@@ -1451,9 +1490,12 @@
 			]
 		},
 		"parameter-array-binding-pattern": {
-			"begin": "\\[",
+			"begin": "(?:(\\.\\.\\.)\\s*)?(\\[)",
 			"beginCaptures": {
-				"0": {
+				"1": {
+					"name": "keyword.operator.rest.tsx"
+				},
+				"2": {
 					"name": "punctuation.definition.binding-pattern.array.tsx"
 				}
 			},
@@ -1551,9 +1593,6 @@
 					"include": "#type-builtin-literals"
 				},
 				{
-					"include": "#typeof-operator"
-				},
-				{
 					"include": "#type-parameters"
 				},
 				{
@@ -1563,7 +1602,7 @@
 					"include": "#type-object"
 				},
 				{
-					"include": "#type-operator"
+					"include": "#type-operators"
 				},
 				{
 					"include": "#type-fn-type-parameters"
@@ -1697,9 +1736,16 @@
 				}
 			]
 		},
-		"type-operator": {
-			"name": "keyword.operator.type.tsx",
-			"match": "[&|]"
+		"type-operators": {
+			"patterns": [
+				{
+					"include": "#typeof-operator"
+				},
+				{
+					"name": "keyword.operator.type.tsx",
+					"match": "[&|]"
+				}
+			]
 		},
 		"type-function-return-type": {
 			"name": "meta.type.function.return.tsx",
@@ -1906,6 +1952,11 @@
 				}
 			},
 			"end": ":",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.section.case-statement.tsx"
+				}
+			},
 			"patterns": [
 				{
 					"include": "#expression"
@@ -2310,7 +2361,22 @@
 				},
 				{
 					"name": "meta.object.member.tsx",
-					"match": "([_$[:alpha:]][_$[:alnum:]]*)\\s*(?=,|\\})",
+					"begin": "\\.\\.\\.",
+					"beginCaptures": {
+						"0": {
+							"name": "keyword.operator.spread.tsx"
+						}
+					},
+					"end": "(?=,|\\})",
+					"patterns": [
+						{
+							"include": "#expression"
+						}
+					]
+				},
+				{
+					"name": "meta.object.member.tsx",
+					"match": "([_$[:alpha:]][_$[:alnum:]]*)\\s*(?=,|\\}|$)",
 					"captures": {
 						"1": {
 							"name": "variable.other.readwrite.tsx"
@@ -2322,7 +2388,7 @@
 				}
 			]
 		},
-		"expression-operator": {
+		"expression-operators": {
 			"patterns": [
 				{
 					"name": "keyword.control.flow.tsx",
@@ -2368,15 +2434,11 @@
 							"include": "#type"
 						}
 					]
-				}
-			]
-		},
-		"typeof-operator": {
-			"name": "keyword.operator.typeof.tsx",
-			"match": "(?<!\\.|\\$)\\btypeof\\b(?!\\$)"
-		},
-		"operators": {
-			"patterns": [
+				},
+				{
+					"name": "keyword.operator.spread.tsx",
+					"match": "\\.\\.\\."
+				},
 				{
 					"name": "keyword.operator.assignment.compound.tsx",
 					"match": "\\*=|(?<!\\()/=|%=|\\+=|\\-="
@@ -2418,6 +2480,10 @@
 					"match": "%|\\*|/|-|\\+"
 				}
 			]
+		},
+		"typeof-operator": {
+			"name": "keyword.operator.typeof.tsx",
+			"match": "(?<!\\.|\\$)\\btypeof\\b(?!\\$)"
 		},
 		"arrow-function": {
 			"patterns": [
@@ -3153,17 +3219,17 @@
 			]
 		},
 		"jsx-evaluated-code": {
-			"name": "meta.brace.curly.tsx",
+			"name": "meta.embedded.expression.tsx",
 			"begin": "{",
 			"end": "}",
 			"beginCaptures": {
 				"0": {
-					"name": "punctuation.definition.brace.curly.start.tsx"
+					"name": "punctuation.section.embedded.begin.tsx"
 				}
 			},
 			"endCaptures": {
 				"0": {
-					"name": "punctuation.definition.brace.curly.end.tsx"
+					"name": "punctuation.section.embedded.end.tsx"
 				}
 			},
 			"patterns": [
@@ -3209,7 +3275,7 @@
 				}
 			]
 		},
-		"jsx-tag": {
+		"jsx-tag-in-expression": {
 			"begin": "(?x)\n  (?<=[({\\[,?=>]|&&|\\|\\||\\?|\\Wreturn|^return|\\Wdefault|^)\\s*\n  (?!(<)\\s*([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\\s*(>)) #look ahead is not start of tag without attributes\n  (?!<\\s*[_$[:alpha:]][_$[:alnum:]]*((\\s+extends\\s+[^=>])|,)) # look ahead is not type parameter of arrow\n  (?=(<)\\s*\n  ([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\n  (?=\\s+(?!\\?)|/?>))",
 			"end": "(/>)|(?:(</)\\s*([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\\s*(>))",
 			"endCaptures": {
@@ -3231,7 +3297,42 @@
 			},
 			"patterns": [
 				{
-					"name": "meta.tag.tsx",
+					"include": "#jsx-tag"
+				}
+			]
+		},
+		"jsx-child-tag": {
+			"begin": "(?x)\n  (?=(<)\\s*\n  ([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\n  (?=\\s+(?!\\?)|/?>))",
+			"end": "(/>)|(?:(</)\\s*([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\\s*(>))",
+			"endCaptures": {
+				"0": {
+					"name": "meta.tag.tsx"
+				},
+				"1": {
+					"name": "punctuation.definition.tag.end.tsx"
+				},
+				"2": {
+					"name": "punctuation.definition.tag.begin.tsx"
+				},
+				"3": {
+					"name": "entity.name.tag.tsx"
+				},
+				"4": {
+					"name": "punctuation.definition.tag.end.tsx"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#jsx-tag"
+				}
+			]
+		},
+		"jsx-tag": {
+			"name": "meta.tag.tsx",
+			"begin": "(?x)\n  (?=(<)\\s*\n  ([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\n  (?=\\s+(?!\\?)|/?>))",
+			"end": "(?=(/>)|(?:(</)\\s*([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\\s*(>)))",
+			"patterns": [
+				{
 					"begin": "(?x)\n  (<)\\s*\n  ([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\n  (?=\\s+(?!\\?)|/?>)",
 					"beginCaptures": {
 						"1": {
@@ -3241,37 +3342,31 @@
 							"name": "entity.name.tag.tsx"
 						}
 					},
-					"end": "(?=(/>)|(?:(</)\\s*([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\\s*(>)))",
+					"end": "(?=[/]?>)",
 					"patterns": [
 						{
-							"begin": "\\G(?![/]?>)",
-							"end": "(?=[/]?>)",
-							"patterns": [
-								{
-									"include": "#comment"
-								},
-								{
-									"include": "#jsx-tag-attributes"
-								},
-								{
-									"include": "#jsx-tag-attributes-illegal"
-								}
-							]
+							"include": "#comment"
 						},
 						{
-							"begin": "(>)",
-							"beginCaptures": {
-								"1": {
-									"name": "punctuation.definition.tag.end.tsx"
-								}
-							},
-							"end": "(?=</)",
-							"contentName": "meta.jsx.children.tsx",
-							"patterns": [
-								{
-									"include": "#jsx-children"
-								}
-							]
+							"include": "#jsx-tag-attributes"
+						},
+						{
+							"include": "#jsx-tag-attributes-illegal"
+						}
+					]
+				},
+				{
+					"begin": "(>)",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.definition.tag.end.tsx"
+						}
+					},
+					"end": "(?=</)",
+					"contentName": "meta.jsx.children.tsx",
+					"patterns": [
+						{
+							"include": "#jsx-children"
 						}
 					]
 				}
@@ -3287,7 +3382,7 @@
 					"include": "#jsx-tag-without-attributes"
 				},
 				{
-					"include": "#jsx-tag"
+					"include": "#jsx-child-tag"
 				},
 				{
 					"include": "#jsx-tag-invalid"
@@ -3301,13 +3396,12 @@
 			]
 		},
 		"jsx": {
-			"name": "meta.jsx.tsx",
 			"patterns": [
 				{
 					"include": "#jsx-tag-without-attributes"
 				},
 				{
-					"include": "#jsx-tag"
+					"include": "#jsx-tag-in-expression"
 				},
 				{
 					"include": "#jsx-tag-invalid"
@@ -3315,5 +3409,5 @@
 			]
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/6e4b81f40f4a5ee494cab754f2c81a4a4af9f501"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/56e921e83d67f1369f77296a23fa44d83f2919ee"
 }
