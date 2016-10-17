@@ -2,7 +2,7 @@
     "name": "typescript-javascript-grammar",
     "private": true,
     "displayName": "Latest TypeScript and Javascript Grammar",
-    "description": "The latest typescript-javascript grammar from Microsoft/TypeScript-TmLanguage",
+    "description": "This is developement branch of VSCode JS/TS colorization. Please file any issues you find against https://github.com/Microsoft/TypeScript-TmLanguage/issues",
     "license": "SEE LICENSE IN LICENSE.txt",
     "author": "Microsoft Corporation",
     "galleryBanner": {
@@ -20,6 +20,13 @@
     },
     "devDependencies": {
         "fast-plist": "0.1.1"
+    },
+    "bugs": {
+        "url": "https://github.com/Microsoft/TypeScript-TmLanguage/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/sheetalkamat/TypeScript-TmLanguage-VsCode.git"
     },
     "extensionDependencies": [
         "vscode.typescript",
