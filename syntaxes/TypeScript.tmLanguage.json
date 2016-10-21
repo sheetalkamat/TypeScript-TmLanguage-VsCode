@@ -89,7 +89,7 @@
 			"begin": "([_$[:alpha:]][_$[:alnum:]]*)",
 			"beginCaptures": {
 				"1": {
-					"name": "variable.other.readwrite.ts"
+					"name": "meta.definition.variable.ts variable.other.readwrite.ts"
 				}
 			},
 			"end": "(?=$|[;,=}]|(\\s+(of|in)\\s+))",
@@ -165,7 +165,7 @@
 							"include": "#array-binding-pattern"
 						},
 						{
-							"name": "variable.other.readwrite.ts",
+							"name": "meta.definition.variable.ts variable.other.readwrite.ts",
 							"match": "([_$[:alpha:]][_$[:alnum:]]*)"
 						},
 						{
@@ -216,7 +216,7 @@
 					"name": "keyword.operator.rest.ts"
 				},
 				"2": {
-					"name": "variable.other.readwrite.ts"
+					"name": "meta.definition.variable.ts variable.other.readwrite.ts"
 				}
 			}
 		},
@@ -491,8 +491,8 @@
 		},
 		"enum-declaration": {
 			"name": "meta.enum.declaration.ts",
-			"match": "(?<!\\.|\\$)(?:(\\bexport)\\s+)?(?:\\b(const)\\s+)?\\b(enum)\\s+([_$[:alpha:]][_$[:alnum:]]*)",
-			"captures": {
+			"begin": "(?<!\\.|\\$)(?:(\\bexport)\\s+)?(?:\\b(const)\\s+)?\\b(enum)\\s+([_$[:alpha:]][_$[:alnum:]]*)",
+			"beginCaptures": {
 				"1": {
 					"name": "keyword.control.export.ts"
 				},
@@ -505,7 +505,67 @@
 				"4": {
 					"name": "entity.name.type.enum.ts"
 				}
-			}
+			},
+			"end": "(?<=\\})",
+			"patterns": [
+				{
+					"include": "#comment"
+				},
+				{
+					"begin": "\\{",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.block.ts"
+						}
+					},
+					"end": "\\}",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.block.ts"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#comment"
+						},
+						{
+							"begin": "([_$[:alpha:]][_$[:alnum:]]*)",
+							"beginCaptures": {
+								"0": {
+									"name": "variable.other.enummember.ts"
+								}
+							},
+							"end": "(?=,|\\}|$)",
+							"patterns": [
+								{
+									"include": "#comment"
+								},
+								{
+									"include": "#variable-initializer"
+								}
+							]
+						},
+						{
+							"begin": "(?=(?:(?:\\'[^']*\\')|(?:\\\"[^\"]*\\\")))",
+							"end": "(?=,|\\}|$)",
+							"patterns": [
+								{
+									"include": "#string"
+								},
+								{
+									"include": "#comment"
+								},
+								{
+									"include": "#variable-initializer"
+								}
+							]
+						},
+						{
+							"include": "#punctuation-comma"
+						}
+					]
+				}
+			]
 		},
 		"namespace-declaration": {
 			"name": "meta.namespace.declaration.ts",
@@ -812,7 +872,7 @@
 					"match": "[_$[:alpha:]][_$[:alnum:]]*",
 					"captures": {
 						"0": {
-							"name": "entity.name.class.ts"
+							"name": "entity.name.type.class.ts"
 						}
 					}
 				},
@@ -1012,7 +1072,7 @@
 							"include": "#comment"
 						},
 						{
-							"name": "variable.object.property.ts",
+							"name": "meta.definition.property.ts variable.object.property.ts",
 							"match": "[_$[:alpha:]][_$[:alnum:]]*"
 						},
 						{
@@ -1117,7 +1177,7 @@
 					"include": "#array-literal"
 				},
 				{
-					"name": "entity.name.function.ts",
+					"name": "meta.definition.method.ts entity.name.function.ts",
 					"match": "[_$[:alpha:]][_$[:alnum:]]*"
 				},
 				{
@@ -1172,7 +1232,7 @@
 					"name": "keyword.generator.asterisk.ts"
 				},
 				"5": {
-					"name": "entity.name.function.ts"
+					"name": "meta.definition.function.ts entity.name.function.ts"
 				}
 			},
 			"end": "(?=;|\\})|(?<=\\})",
@@ -1214,12 +1274,12 @@
 					"name": "keyword.generator.asterisk.ts"
 				},
 				"5": {
-					"name": "entity.name.function.ts"
+					"name": "meta.definition.function.ts entity.name.function.ts"
 				}
 			}
 		},
 		"object-literal": {
-			"name": "meta.object-literal.ts",
+			"name": "meta.objectliteral.ts",
 			"begin": "\\{",
 			"beginCaptures": {
 				"0": {
@@ -1259,7 +1319,7 @@
 			]
 		},
 		"after-operator-block": {
-			"name": "meta.object-literal.ts",
+			"name": "meta.objectliteral.ts",
 			"begin": "(?<=[=(,\\[?+!]|await|return|yield|throw|in|of|typeof|&&|\\|\\||\\*)\\s*(\\{)",
 			"beginCaptures": {
 				"1": {
@@ -1507,7 +1567,7 @@
 			]
 		},
 		"type-predicate-operator": {
-			"name": "keyword.operator.is.ts",
+			"name": "keyword.operator.expression.is.ts",
 			"match": "(?<!\\.|\\$)\\bis\\b(?!\\$)"
 		},
 		"type-annotation": {
@@ -2112,7 +2172,7 @@
 					"name": "entity.name.function.ts"
 				}
 			},
-			"end": "(?=\\()",
+			"end": "(?<=\\))",
 			"patterns": [
 				{
 					"include": "#comment"
@@ -2139,6 +2199,9 @@
 							"include": "#punctuation-comma"
 						}
 					]
+				},
+				{
+					"include": "#paren-expression"
 				}
 			]
 		},
@@ -2244,8 +2307,11 @@
 					"name": "keyword.operator.new.ts"
 				}
 			},
-			"end": "(?=[(;),]|$|((?<!\\.|\\$)\\bnew\\b(?!\\$)))",
+			"end": "(?<=\\))|(?=[;),]|$|((?<!\\.|\\$)\\bnew\\b(?!\\$)))",
 			"patterns": [
+				{
+					"include": "#paren-expression"
+				},
 				{
 					"include": "#type"
 				}
@@ -2362,19 +2428,19 @@
 					"match": "(?<!\\.|\\$)\\b(await)\\b(?!\\$)"
 				},
 				{
-					"name": "keyword.operator.delete.ts",
+					"name": "keyword.operator.expression.delete.ts",
 					"match": "(?<!\\.|\\$)\\bdelete\\b(?!\\$)"
 				},
 				{
-					"name": "keyword.operator.in.ts",
+					"name": "keyword.operator.expression.in.ts",
 					"match": "(?<!\\.|\\$)\\bin\\b(?!\\$)"
 				},
 				{
-					"name": "keyword.operator.of.ts",
+					"name": "keyword.operator.expression.of.ts",
 					"match": "(?<!\\.|\\$)\\bof\\b(?!\\$)"
 				},
 				{
-					"name": "keyword.operator.instanceof.ts",
+					"name": "keyword.operator.expression.instanceof.ts",
 					"match": "(?<!\\.|\\$)\\binstanceof\\b(?!\\$)"
 				},
 				{
@@ -2385,7 +2451,7 @@
 					"include": "#typeof-operator"
 				},
 				{
-					"name": "keyword.operator.void.ts",
+					"name": "keyword.operator.expression.void.ts",
 					"match": "(?<!\\.|\\$)\\bvoid\\b(?!\\$)"
 				},
 				{
@@ -2395,7 +2461,7 @@
 							"name": "keyword.control.as.ts"
 						}
 					},
-					"end": "(?=$|[;,})\\]])",
+					"end": "(?=$|[;,:})\\]])",
 					"patterns": [
 						{
 							"include": "#type"
@@ -2453,7 +2519,7 @@
 			]
 		},
 		"typeof-operator": {
-			"name": "keyword.operator.typeof.ts",
+			"name": "keyword.operator.expression.typeof.ts",
 			"match": "(?<!\\.|\\$)\\btypeof\\b(?!\\$)"
 		},
 		"arrow-function": {
@@ -2617,25 +2683,52 @@
 			]
 		},
 		"regex": {
-			"name": "string.regex.ts",
-			"begin": "(?<=[=(:,\\[?+!]|return|case|=>|&&|\\|\\||\\*\\/)\\s*(/)(?![/*+?])(?=.*/)",
-			"beginCaptures": {
-				"1": {
-					"name": "punctuation.definition.string.begin.ts"
-				}
-			},
-			"end": "(/)([gimuy]*)",
-			"endCaptures": {
-				"1": {
-					"name": "punctuation.definition.string.end.ts"
-				},
-				"2": {
-					"name": "keyword.other.ts"
-				}
-			},
 			"patterns": [
 				{
-					"include": "#regexp"
+					"name": "string.regex.ts",
+					"begin": "(?<=[=(:,\\[?+!]|return|case|=>|&&|\\|\\||\\*\\/)\\s*(/)(?![/*+?])(?=.*/)",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.definition.string.begin.ts"
+						}
+					},
+					"end": "(/)([gimuy]*)",
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.definition.string.end.ts"
+						},
+						"2": {
+							"name": "keyword.other.ts"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#regexp"
+						}
+					]
+				},
+				{
+					"name": "string.regex.ts",
+					"begin": "/(?![/*])(?=(?:[^/\\\\\\[]|\\\\.|\\[([^\\]\\\\]|\\\\.)+\\])+/(?![/*])[gimy]*(?!\\s*[a-zA-Z0-9_$]))",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.string.begin.ts"
+						}
+					},
+					"end": "(/)([gimuy]*)",
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.definition.string.end.ts"
+						},
+						"2": {
+							"name": "keyword.other.ts"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#regexp"
+						}
+					]
 				}
 			]
 		},
@@ -3074,5 +3167,5 @@
 			]
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/0f2c5663598ef622473615867edc3995bc1f48b5"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/a87cde2f4d75081c41de40f392b22d2ce274b371"
 }

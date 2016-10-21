@@ -89,7 +89,7 @@
 			"begin": "([_$[:alpha:]][_$[:alnum:]]*)",
 			"beginCaptures": {
 				"1": {
-					"name": "variable.other.readwrite.tsx"
+					"name": "meta.definition.variable.tsx variable.other.readwrite.tsx"
 				}
 			},
 			"end": "(?=$|[;,=}]|(\\s+(of|in)\\s+))",
@@ -165,7 +165,7 @@
 							"include": "#array-binding-pattern"
 						},
 						{
-							"name": "variable.other.readwrite.tsx",
+							"name": "meta.definition.variable.tsx variable.other.readwrite.tsx",
 							"match": "([_$[:alpha:]][_$[:alnum:]]*)"
 						},
 						{
@@ -216,7 +216,7 @@
 					"name": "keyword.operator.rest.tsx"
 				},
 				"2": {
-					"name": "variable.other.readwrite.tsx"
+					"name": "meta.definition.variable.tsx variable.other.readwrite.tsx"
 				}
 			}
 		},
@@ -494,8 +494,8 @@
 		},
 		"enum-declaration": {
 			"name": "meta.enum.declaration.tsx",
-			"match": "(?<!\\.|\\$)(?:(\\bexport)\\s+)?(?:\\b(const)\\s+)?\\b(enum)\\s+([_$[:alpha:]][_$[:alnum:]]*)",
-			"captures": {
+			"begin": "(?<!\\.|\\$)(?:(\\bexport)\\s+)?(?:\\b(const)\\s+)?\\b(enum)\\s+([_$[:alpha:]][_$[:alnum:]]*)",
+			"beginCaptures": {
 				"1": {
 					"name": "keyword.control.export.tsx"
 				},
@@ -508,7 +508,67 @@
 				"4": {
 					"name": "entity.name.type.enum.tsx"
 				}
-			}
+			},
+			"end": "(?<=\\})",
+			"patterns": [
+				{
+					"include": "#comment"
+				},
+				{
+					"begin": "\\{",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.block.tsx"
+						}
+					},
+					"end": "\\}",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.block.tsx"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#comment"
+						},
+						{
+							"begin": "([_$[:alpha:]][_$[:alnum:]]*)",
+							"beginCaptures": {
+								"0": {
+									"name": "variable.other.enummember.tsx"
+								}
+							},
+							"end": "(?=,|\\}|$)",
+							"patterns": [
+								{
+									"include": "#comment"
+								},
+								{
+									"include": "#variable-initializer"
+								}
+							]
+						},
+						{
+							"begin": "(?=(?:(?:\\'[^']*\\')|(?:\\\"[^\"]*\\\")))",
+							"end": "(?=,|\\}|$)",
+							"patterns": [
+								{
+									"include": "#string"
+								},
+								{
+									"include": "#comment"
+								},
+								{
+									"include": "#variable-initializer"
+								}
+							]
+						},
+						{
+							"include": "#punctuation-comma"
+						}
+					]
+				}
+			]
 		},
 		"namespace-declaration": {
 			"name": "meta.namespace.declaration.tsx",
@@ -815,7 +875,7 @@
 					"match": "[_$[:alpha:]][_$[:alnum:]]*",
 					"captures": {
 						"0": {
-							"name": "entity.name.class.tsx"
+							"name": "entity.name.type.class.tsx"
 						}
 					}
 				},
@@ -1015,7 +1075,7 @@
 							"include": "#comment"
 						},
 						{
-							"name": "variable.object.property.tsx",
+							"name": "meta.definition.property.tsx variable.object.property.tsx",
 							"match": "[_$[:alpha:]][_$[:alnum:]]*"
 						},
 						{
@@ -1120,7 +1180,7 @@
 					"include": "#array-literal"
 				},
 				{
-					"name": "entity.name.function.tsx",
+					"name": "meta.definition.method.tsx entity.name.function.tsx",
 					"match": "[_$[:alpha:]][_$[:alnum:]]*"
 				},
 				{
@@ -1175,7 +1235,7 @@
 					"name": "keyword.generator.asterisk.tsx"
 				},
 				"5": {
-					"name": "entity.name.function.tsx"
+					"name": "meta.definition.function.tsx entity.name.function.tsx"
 				}
 			},
 			"end": "(?=;|\\})|(?<=\\})",
@@ -1217,12 +1277,12 @@
 					"name": "keyword.generator.asterisk.tsx"
 				},
 				"5": {
-					"name": "entity.name.function.tsx"
+					"name": "meta.definition.function.tsx entity.name.function.tsx"
 				}
 			}
 		},
 		"object-literal": {
-			"name": "meta.object-literal.tsx",
+			"name": "meta.objectliteral.tsx",
 			"begin": "\\{",
 			"beginCaptures": {
 				"0": {
@@ -1262,7 +1322,7 @@
 			]
 		},
 		"after-operator-block": {
-			"name": "meta.object-literal.tsx",
+			"name": "meta.objectliteral.tsx",
 			"begin": "(?<=[=(,\\[?+!]|await|return|yield|throw|in|of|typeof|&&|\\|\\||\\*)\\s*(\\{)",
 			"beginCaptures": {
 				"1": {
@@ -1510,7 +1570,7 @@
 			]
 		},
 		"type-predicate-operator": {
-			"name": "keyword.operator.is.tsx",
+			"name": "keyword.operator.expression.is.tsx",
 			"match": "(?<!\\.|\\$)\\bis\\b(?!\\$)"
 		},
 		"type-annotation": {
@@ -2115,7 +2175,7 @@
 					"name": "entity.name.function.tsx"
 				}
 			},
-			"end": "(?=\\()",
+			"end": "(?<=\\))",
 			"patterns": [
 				{
 					"include": "#comment"
@@ -2142,6 +2202,9 @@
 							"include": "#punctuation-comma"
 						}
 					]
+				},
+				{
+					"include": "#paren-expression"
 				}
 			]
 		},
@@ -2234,8 +2297,11 @@
 					"name": "keyword.operator.new.tsx"
 				}
 			},
-			"end": "(?=[(;),]|$|((?<!\\.|\\$)\\bnew\\b(?!\\$)))",
+			"end": "(?<=\\))|(?=[;),]|$|((?<!\\.|\\$)\\bnew\\b(?!\\$)))",
 			"patterns": [
+				{
+					"include": "#paren-expression"
+				},
 				{
 					"include": "#type"
 				}
@@ -2352,19 +2418,19 @@
 					"match": "(?<!\\.|\\$)\\b(await)\\b(?!\\$)"
 				},
 				{
-					"name": "keyword.operator.delete.tsx",
+					"name": "keyword.operator.expression.delete.tsx",
 					"match": "(?<!\\.|\\$)\\bdelete\\b(?!\\$)"
 				},
 				{
-					"name": "keyword.operator.in.tsx",
+					"name": "keyword.operator.expression.in.tsx",
 					"match": "(?<!\\.|\\$)\\bin\\b(?!\\$)"
 				},
 				{
-					"name": "keyword.operator.of.tsx",
+					"name": "keyword.operator.expression.of.tsx",
 					"match": "(?<!\\.|\\$)\\bof\\b(?!\\$)"
 				},
 				{
-					"name": "keyword.operator.instanceof.tsx",
+					"name": "keyword.operator.expression.instanceof.tsx",
 					"match": "(?<!\\.|\\$)\\binstanceof\\b(?!\\$)"
 				},
 				{
@@ -2375,7 +2441,7 @@
 					"include": "#typeof-operator"
 				},
 				{
-					"name": "keyword.operator.void.tsx",
+					"name": "keyword.operator.expression.void.tsx",
 					"match": "(?<!\\.|\\$)\\bvoid\\b(?!\\$)"
 				},
 				{
@@ -2385,7 +2451,7 @@
 							"name": "keyword.control.as.tsx"
 						}
 					},
-					"end": "(?=$|[;,})\\]])",
+					"end": "(?=$|[;,:})\\]])",
 					"patterns": [
 						{
 							"include": "#type"
@@ -2443,7 +2509,7 @@
 			]
 		},
 		"typeof-operator": {
-			"name": "keyword.operator.typeof.tsx",
+			"name": "keyword.operator.expression.typeof.tsx",
 			"match": "(?<!\\.|\\$)\\btypeof\\b(?!\\$)"
 		},
 		"arrow-function": {
@@ -2607,25 +2673,52 @@
 			]
 		},
 		"regex": {
-			"name": "string.regex.tsx",
-			"begin": "(?<=[=(:,\\[?+!]|return|case|=>|&&|\\|\\||\\*\\/)\\s*(/)(?![/*+?])(?=.*/)",
-			"beginCaptures": {
-				"1": {
-					"name": "punctuation.definition.string.begin.tsx"
-				}
-			},
-			"end": "(/)([gimuy]*)",
-			"endCaptures": {
-				"1": {
-					"name": "punctuation.definition.string.end.tsx"
-				},
-				"2": {
-					"name": "keyword.other.tsx"
-				}
-			},
 			"patterns": [
 				{
-					"include": "#regexp"
+					"name": "string.regex.tsx",
+					"begin": "(?<=[=(:,\\[?+!]|return|case|=>|&&|\\|\\||\\*\\/)\\s*(/)(?![/*+?])(?=.*/)",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.definition.string.begin.tsx"
+						}
+					},
+					"end": "(/)([gimuy]*)",
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.definition.string.end.tsx"
+						},
+						"2": {
+							"name": "keyword.other.tsx"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#regexp"
+						}
+					]
+				},
+				{
+					"name": "string.regex.tsx",
+					"begin": "/(?![/*])(?=(?:[^/\\\\\\[]|\\\\.|\\[([^\\]\\\\]|\\\\.)+\\])+/(?![/*])[gimy]*(?!\\s*[a-zA-Z0-9_$]))",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.string.begin.tsx"
+						}
+					},
+					"end": "(/)([gimuy]*)",
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.definition.string.end.tsx"
+						},
+						"2": {
+							"name": "keyword.other.tsx"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#regexp"
+						}
+					]
 				}
 			]
 		},
@@ -3366,5 +3459,5 @@
 			]
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/0f2c5663598ef622473615867edc3995bc1f48b5"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/a87cde2f4d75081c41de40f392b22d2ce274b371"
 }
