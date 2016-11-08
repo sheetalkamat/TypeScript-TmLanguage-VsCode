@@ -32,10 +32,6 @@ function adaptToJavaScript(grammar) {
 	for (var key in repository) {
 		fixScopeNames(repository[key]);
 	}
-	// disable type parameters
-	if (repository['type-parameters']) {
-		repository['type-parameters']['begin'] = 'DO_NOT_MATCH';
-	}
 }
 
 
