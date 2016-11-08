@@ -7,6 +7,9 @@
 	"uuid": "805375ec-d614-41f5-8993-5843fe63ea82",
 	"patterns": [
 		{
+			"include": "#directives"
+		},
+		{
 			"include": "#statements"
 		},
 		{
@@ -24,9 +27,6 @@
 			"patterns": [
 				{
 					"include": "#string"
-				},
-				{
-					"include": "#regex"
 				},
 				{
 					"include": "#template"
@@ -381,10 +381,10 @@
 					"include": "#expression-operators"
 				},
 				{
-					"include": "#support-objects"
+					"include": "#function-call"
 				},
 				{
-					"include": "#function-call"
+					"include": "#support-objects"
 				},
 				{
 					"include": "#identifiers"
@@ -1746,9 +1746,9 @@
 		},
 		"type-paren-or-function-parameters": {
 			"name": "meta.type.paren.cover.tsx",
-			"begin": "\\s*(\\()",
+			"begin": "\\(",
 			"beginCaptures": {
-				"1": {
+				"0": {
 					"name": "meta.brace.round.tsx"
 				}
 			},
@@ -1805,7 +1805,7 @@
 				},
 				{
 					"name": "meta.type.function.tsx",
-					"begin": "(?x)( \\s* (?= [(]\\s*( ([)]) |  (\\.\\.\\.) | ([_$[:alnum:]]+\\s*( ([:,?=])| ([)]\\s*=>) )) ) ) )",
+					"begin": "(?x)( (?= [(]\\s*( ([)]) |  (\\.\\.\\.) | ([_$[:alnum:]]+\\s*( ([:,?=])| ([)]\\s*=>) )) ) ) )",
 					"end": "(?<=\\))",
 					"patterns": [
 						{
@@ -1823,6 +1823,10 @@
 				{
 					"name": "keyword.operator.type.tsx",
 					"match": "[&|]"
+				},
+				{
+					"name": "keyword.operator.expression.keyof.tsx",
+					"match": "(?<!\\.|\\$)\\bkeyof\\b(?!\\$)"
 				}
 			]
 		},
@@ -2228,17 +2232,20 @@
 			]
 		},
 		"function-call": {
-			"begin": "(?:(\\.)\\s*)?([_$[:alpha:]][_$[:alnum:]]*)\\s*(?=(<([^<>]|\\<[^<>]+\\>)+>\\s*)?\\()",
-			"beginCaptures": {
-				"1": {
-					"name": "punctuation.accessor.tsx"
-				},
-				"2": {
-					"name": "entity.name.function.tsx"
-				}
-			},
-			"end": "(?<=\\))",
+			"begin": "(?=(\\.\\s*)?([_$[:alpha:]][_$[:alnum:]]*)\\s*(<([^<>]|\\<[^<>]+\\>)+>\\s*)?\\()",
+			"end": "(?<=\\))(?!(\\.\\s*)?([_$[:alpha:]][_$[:alnum:]]*)\\s*(<([^<>]|\\<[^<>]+\\>)+>\\s*)?\\()",
 			"patterns": [
+				{
+					"include": "#support-objects"
+				},
+				{
+					"name": "punctuation.accessor.tsx",
+					"match": "\\."
+				},
+				{
+					"name": "entity.name.function.tsx",
+					"match": "([_$[:alpha:]][_$[:alnum:]]*)"
+				},
 				{
 					"include": "#comment"
 				},
@@ -2570,6 +2577,14 @@
 				{
 					"name": "keyword.operator.arithmetic.tsx",
 					"match": "%|\\*|/|-|\\+"
+				},
+				{
+					"match": "(?<=[_$[:alnum:]])\\s*(/)(?![/*])",
+					"captures": {
+						"1": {
+							"name": "keyword.operator.arithmetic.tsx"
+						}
+					}
 				}
 			]
 		},
@@ -2741,7 +2756,7 @@
 			"patterns": [
 				{
 					"name": "string.regex.tsx",
-					"begin": "(?<=[=(:,\\[?+!]|return|case|=>|&&|\\|\\||\\*\\/)\\s*(/)(?![/*+?])(?=.*/)",
+					"begin": "(?<=[=(:,\\[?+!]|return|case|=>|&&|\\|\\||\\*\\/)\\s*(/)(?![/*])(?=(?:[^/\\\\\\[]|\\\\.|\\[([^\\]\\\\]|\\\\.)+\\])+/(?![/*])[gimy]*(?!\\s*[a-zA-Z0-9_$]))",
 					"beginCaptures": {
 						"1": {
 							"name": "punctuation.definition.string.begin.tsx"
@@ -2930,7 +2945,6 @@
 			]
 		},
 		"string": {
-			"name": "string.tsx",
 			"patterns": [
 				{
 					"include": "#qstring-single"
@@ -3137,8 +3151,13 @@
 				{
 					"name": "comment.block.documentation.tsx",
 					"begin": "/\\*\\*(?!/)",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.comment.tsx"
+						}
+					},
 					"end": "\\*/",
-					"captures": {
+					"endCaptures": {
 						"0": {
 							"name": "punctuation.definition.comment.tsx"
 						}
@@ -3152,8 +3171,13 @@
 				{
 					"name": "comment.block.tsx",
 					"begin": "/\\*",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.comment.tsx"
+						}
+					},
 					"end": "\\*/",
-					"captures": {
+					"endCaptures": {
 						"0": {
 							"name": "punctuation.definition.comment.tsx"
 						}
@@ -3177,6 +3201,49 @@
 								}
 							},
 							"end": "(?=$)"
+						}
+					]
+				}
+			]
+		},
+		"directives": {
+			"name": "comment.line.triple-slash.directive.tsx",
+			"begin": "^(///)\\s*(?=<(reference|amd-dependency|amd-module)(\\s+(path|types|no-default-lib|name)\\s*=\\s*((\\'[^']*\\')|(\\\"[^\"]*\\\")))+\\s*/>\\s*$)",
+			"beginCaptures": {
+				"1": {
+					"name": "punctuation.definition.comment.tsx"
+				}
+			},
+			"end": "(?=$)",
+			"patterns": [
+				{
+					"name": "meta.tag.tsx",
+					"begin": "(<)(reference|amd-dependency|amd-module)",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.definition.tag.directive.tsx"
+						},
+						"2": {
+							"name": "entity.name.tag.directive.tsx"
+						}
+					},
+					"end": "/>",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.tag.directive.tsx"
+						}
+					},
+					"patterns": [
+						{
+							"name": "entity.other.attribute-name.directive.tsx",
+							"match": "path|types|no-default-lib|name"
+						},
+						{
+							"name": "keyword.operator.assignment.tsx",
+							"match": "="
+						},
+						{
+							"include": "#string"
 						}
 					]
 				}
@@ -3241,7 +3308,6 @@
 			]
 		},
 		"jsx-tag-attribute-name": {
-			"name": "meta.tag.attribute-name.tsx",
 			"match": "(?x)\n  \\s*\n  ([_$a-zA-Z][-$\\w]*)\n  (?=\\s|=|/?>|/\\*|//)",
 			"captures": {
 				"1": {
@@ -3254,42 +3320,42 @@
 			"match": "=(?=\\s*(?:'|\"|{|/\\*|//|\\n))"
 		},
 		"jsx-string-double-quoted": {
-			"name": "string.jsxAttributeValue.quoted.double.tsx",
+			"name": "string.quoted.double.tsx",
 			"begin": "\"",
 			"end": "\"",
 			"beginCaptures": {
 				"0": {
-					"name": "punctuation.definition.string.jsxAttributeValue.begin.tsx"
+					"name": "punctuation.definition.string.begin.tsx"
 				}
 			},
 			"endCaptures": {
 				"0": {
-					"name": "punctuation.definition.string.jsxAttributeValue.end.tsx"
+					"name": "punctuation.definition.string.end.tsx"
 				}
 			},
 			"patterns": [
 				{
-					"include": "#jsx-attributeValue-entities"
+					"include": "#jsx-entities"
 				}
 			]
 		},
 		"jsx-string-single-quoted": {
-			"name": "string.jsxAttributeValue.quoted.single.tsx",
+			"name": "string.quoted.single.tsx",
 			"begin": "'",
 			"end": "'",
 			"beginCaptures": {
 				"0": {
-					"name": "punctuation.definition.string.jsxAttributeValue.begin.tsx"
+					"name": "punctuation.definition.string.begin.tsx"
 				}
 			},
 			"endCaptures": {
 				"0": {
-					"name": "punctuation.definition.string.jsxAttributeValue.end.tsx"
+					"name": "punctuation.definition.string.end.tsx"
 				}
 			},
 			"patterns": [
 				{
-					"include": "#jsx-attributeValue-entities"
+					"include": "#jsx-entities"
 				}
 			]
 		},
@@ -3309,26 +3375,6 @@
 				},
 				{
 					"name": "invalid.illegal.bad-ampersand.tsx",
-					"match": "&"
-				}
-			]
-		},
-		"jsx-attributeValue-entities": {
-			"patterns": [
-				{
-					"name": "constant.character.entity.jsxAttributeValue.tsx",
-					"match": "(&)([a-zA-Z0-9]+|#[0-9]+|#x[0-9a-fA-F]+)(;)",
-					"captures": {
-						"1": {
-							"name": "punctuation.definition.entity.jsxAttributeValue.tsx"
-						},
-						"3": {
-							"name": "punctuation.definition.entity.jsxAttributeValue.tsx"
-						}
-					}
-				},
-				{
-					"name": "invalid.illegal.bad-ampersand.jsxAttributeValue.tsx",
 					"match": "&"
 				}
 			]
@@ -3524,5 +3570,5 @@
 			]
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/28cde3c7338adb6ae04db4cad7be6bcef21f8f45"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/4d0bdebb93aadc25ecbb903ebc897e9cd5fab69c"
 }

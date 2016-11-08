@@ -7,6 +7,9 @@
 	"uuid": "ef98eb90-bf9b-11e4-bb52-0800200c9a66",
 	"patterns": [
 		{
+			"include": "#directives"
+		},
+		{
 			"include": "#statements"
 		},
 		{
@@ -24,9 +27,6 @@
 			"patterns": [
 				{
 					"include": "#string"
-				},
-				{
-					"include": "#regex"
 				},
 				{
 					"include": "#template"
@@ -378,10 +378,10 @@
 					"include": "#expression-operators"
 				},
 				{
-					"include": "#support-objects"
+					"include": "#function-call"
 				},
 				{
-					"include": "#function-call"
+					"include": "#support-objects"
 				},
 				{
 					"include": "#identifiers"
@@ -1743,9 +1743,9 @@
 		},
 		"type-paren-or-function-parameters": {
 			"name": "meta.type.paren.cover.ts",
-			"begin": "\\s*(\\()",
+			"begin": "\\(",
 			"beginCaptures": {
-				"1": {
+				"0": {
 					"name": "meta.brace.round.ts"
 				}
 			},
@@ -1802,7 +1802,7 @@
 				},
 				{
 					"name": "meta.type.function.ts",
-					"begin": "(?x)( \\s* (?= [(]\\s*( ([)]) |  (\\.\\.\\.) | ([_$[:alnum:]]+\\s*( ([:,?=])| ([)]\\s*=>) )) ) ) )",
+					"begin": "(?x)( (?= [(]\\s*( ([)]) |  (\\.\\.\\.) | ([_$[:alnum:]]+\\s*( ([:,?=])| ([)]\\s*=>) )) ) ) )",
 					"end": "(?<=\\))",
 					"patterns": [
 						{
@@ -1820,6 +1820,10 @@
 				{
 					"name": "keyword.operator.type.ts",
 					"match": "[&|]"
+				},
+				{
+					"name": "keyword.operator.expression.keyof.ts",
+					"match": "(?<!\\.|\\$)\\bkeyof\\b(?!\\$)"
 				}
 			]
 		},
@@ -2225,17 +2229,20 @@
 			]
 		},
 		"function-call": {
-			"begin": "(?:(\\.)\\s*)?([_$[:alpha:]][_$[:alnum:]]*)\\s*(?=(<([^<>]|\\<[^<>]+\\>)+>\\s*)?\\()",
-			"beginCaptures": {
-				"1": {
-					"name": "punctuation.accessor.ts"
-				},
-				"2": {
-					"name": "entity.name.function.ts"
-				}
-			},
-			"end": "(?<=\\))",
+			"begin": "(?=(\\.\\s*)?([_$[:alpha:]][_$[:alnum:]]*)\\s*(<([^<>]|\\<[^<>]+\\>)+>\\s*)?\\()",
+			"end": "(?<=\\))(?!(\\.\\s*)?([_$[:alpha:]][_$[:alnum:]]*)\\s*(<([^<>]|\\<[^<>]+\\>)+>\\s*)?\\()",
 			"patterns": [
+				{
+					"include": "#support-objects"
+				},
+				{
+					"name": "punctuation.accessor.ts",
+					"match": "\\."
+				},
+				{
+					"name": "entity.name.function.ts",
+					"match": "([_$[:alpha:]][_$[:alnum:]]*)"
+				},
 				{
 					"include": "#comment"
 				},
@@ -2580,6 +2587,14 @@
 				{
 					"name": "keyword.operator.arithmetic.ts",
 					"match": "%|\\*|/|-|\\+"
+				},
+				{
+					"match": "(?<=[_$[:alnum:]])\\s*(/)(?![/*])",
+					"captures": {
+						"1": {
+							"name": "keyword.operator.arithmetic.ts"
+						}
+					}
 				}
 			]
 		},
@@ -2751,7 +2766,7 @@
 			"patterns": [
 				{
 					"name": "string.regex.ts",
-					"begin": "(?<=[=(:,\\[?+!]|return|case|=>|&&|\\|\\||\\*\\/)\\s*(/)(?![/*+?])(?=.*/)",
+					"begin": "(?<=[=(:,\\[?+!]|return|case|=>|&&|\\|\\||\\*\\/)\\s*(/)(?![/*])(?=(?:[^/\\\\\\[]|\\\\.|\\[([^\\]\\\\]|\\\\.)+\\])+/(?![/*])[gimy]*(?!\\s*[a-zA-Z0-9_$]))",
 					"beginCaptures": {
 						"1": {
 							"name": "punctuation.definition.string.begin.ts"
@@ -2940,7 +2955,6 @@
 			]
 		},
 		"string": {
-			"name": "string.ts",
 			"patterns": [
 				{
 					"include": "#qstring-single"
@@ -3147,8 +3161,13 @@
 				{
 					"name": "comment.block.documentation.ts",
 					"begin": "/\\*\\*(?!/)",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.comment.ts"
+						}
+					},
 					"end": "\\*/",
-					"captures": {
+					"endCaptures": {
 						"0": {
 							"name": "punctuation.definition.comment.ts"
 						}
@@ -3162,8 +3181,13 @@
 				{
 					"name": "comment.block.ts",
 					"begin": "/\\*",
+					"beginCaptures": {
+						"0": {
+							"name": "punctuation.definition.comment.ts"
+						}
+					},
 					"end": "\\*/",
-					"captures": {
+					"endCaptures": {
 						"0": {
 							"name": "punctuation.definition.comment.ts"
 						}
@@ -3187,6 +3211,49 @@
 								}
 							},
 							"end": "(?=$)"
+						}
+					]
+				}
+			]
+		},
+		"directives": {
+			"name": "comment.line.triple-slash.directive.ts",
+			"begin": "^(///)\\s*(?=<(reference|amd-dependency|amd-module)(\\s+(path|types|no-default-lib|name)\\s*=\\s*((\\'[^']*\\')|(\\\"[^\"]*\\\")))+\\s*/>\\s*$)",
+			"beginCaptures": {
+				"1": {
+					"name": "punctuation.definition.comment.ts"
+				}
+			},
+			"end": "(?=$)",
+			"patterns": [
+				{
+					"name": "meta.tag.ts",
+					"begin": "(<)(reference|amd-dependency|amd-module)",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.definition.tag.directive.ts"
+						},
+						"2": {
+							"name": "entity.name.tag.directive.ts"
+						}
+					},
+					"end": "/>",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.tag.directive.ts"
+						}
+					},
+					"patterns": [
+						{
+							"name": "entity.other.attribute-name.directive.ts",
+							"match": "path|types|no-default-lib|name"
+						},
+						{
+							"name": "keyword.operator.assignment.ts",
+							"match": "="
+						},
+						{
+							"include": "#string"
 						}
 					]
 				}
@@ -3232,5 +3299,5 @@
 			]
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/28cde3c7338adb6ae04db4cad7be6bcef21f8f45"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/4d0bdebb93aadc25ecbb903ebc897e9cd5fab69c"
 }
