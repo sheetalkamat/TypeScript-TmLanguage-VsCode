@@ -1064,6 +1064,9 @@
 					"include": "#indexer-declaration"
 				},
 				{
+					"include": "#indexer-mapped-type-declaration"
+				},
+				{
 					"include": "#field-declaration"
 				},
 				{
@@ -1265,6 +1268,38 @@
 			"patterns": [
 				{
 					"include": "#type-annotation"
+				}
+			]
+		},
+		"indexer-mapped-type-declaration": {
+			"name": "meta.indexer.mappedtype.declaration.tsx",
+			"begin": "(?:(?<!\\.|\\$)\\b(readonly)\\s*)?(\\[)\\s*([_$[:alpha:]][_$[:alnum:]]*)\\s+(in)\\s+",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.modifier.tsx"
+				},
+				"2": {
+					"name": "meta.brace.square.tsx"
+				},
+				"3": {
+					"name": "entity.name.type.tsx"
+				},
+				"4": {
+					"name": "keyword.operator.expression.in.tsx"
+				}
+			},
+			"end": "(\\])\\s*(\\?\\s*)?|$",
+			"endCaptures": {
+				"1": {
+					"name": "meta.brace.square.tsx"
+				},
+				"2": {
+					"name": "keyword.operator.optional.tsx"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#type"
 				}
 			]
 		},
@@ -3570,5 +3605,5 @@
 			]
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/4d0bdebb93aadc25ecbb903ebc897e9cd5fab69c"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/0951762b59038bf6b902a63db9068a4cdddfe3ce"
 }
