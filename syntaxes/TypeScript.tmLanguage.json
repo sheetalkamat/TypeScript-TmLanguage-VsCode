@@ -610,7 +610,7 @@
 		},
 		"namespace-declaration": {
 			"name": "meta.namespace.declaration.ts",
-			"begin": "(?<!\\.|\\$)(?:(\\bexport)\\s+)?\\b(namespace|module)\\s+",
+			"begin": "(?<!\\.|\\$)(?:(\\bexport)\\s+)?\\b(namespace|module)\\s+(?=[_$[:alpha:]\"'`])",
 			"beginCaptures": {
 				"1": {
 					"name": "keyword.control.export.ts"
@@ -1016,6 +1016,12 @@
 					"include": "#property-accessor"
 				},
 				{
+					"include": "#after-operator-block"
+				},
+				{
+					"include": "#decl-block"
+				},
+				{
 					"include": "#expression"
 				},
 				{
@@ -1162,7 +1168,7 @@
 					"name": "keyword.generator.asterisk.ts"
 				}
 			},
-			"end": "(?=\\}|;|,)|(?<=\\})",
+			"end": "(?=\\}|;|,|$)|(?<=\\})",
 			"patterns": [
 				{
 					"include": "#method-declaration-name"
@@ -1180,42 +1186,7 @@
 					"include": "#return-type"
 				},
 				{
-					"include": "#method-overload-declaration"
-				},
-				{
 					"include": "#decl-block"
-				}
-			]
-		},
-		"method-overload-declaration": {
-			"begin": "(?<!\\.|\\$)(?:\\b(public|private|protected)\\s+)?(?:\\b(abstract)\\s+)?(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)?(?:(?:\\b(?:(new)|(constructor))\\b(?!\\$|:))|(?:(\\*)\\s*)?(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'[^']*\\')|(\\\"[^\"]*\\\")|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])+\\]))\\s*(\\??))?\\s*[\\(\\<]))",
-			"beginCaptures": {
-				"1": {
-					"name": "storage.modifier.ts"
-				},
-				"2": {
-					"name": "storage.modifier.ts"
-				},
-				"3": {
-					"name": "storage.modifier.async.ts"
-				},
-				"4": {
-					"name": "storage.type.property.ts"
-				},
-				"5": {
-					"name": "keyword.operator.new.ts"
-				},
-				"6": {
-					"name": "storage.type.ts"
-				},
-				"7": {
-					"name": "keyword.generator.asterisk.ts"
-				}
-			},
-			"end": "(?=\\(|\\<)",
-			"patterns": [
-				{
-					"include": "#method-declaration-name"
 				}
 			]
 		},
@@ -1271,7 +1242,7 @@
 					"include": "#return-type"
 				},
 				{
-					"include": "#method-overload-declaration"
+					"include": "#object-literal-method-overload-declaration"
 				},
 				{
 					"include": "#decl-block"
@@ -2037,26 +2008,47 @@
 			]
 		},
 		"variable-initializer": {
-			"begin": "(?<!=|!)(=)(?!=)",
-			"beginCaptures": {
-				"1": {
-					"name": "keyword.operator.assignment.ts"
-				}
-			},
-			"end": "(?=$|[,);}\\]])",
 			"patterns": [
 				{
-					"include": "#expression"
+					"begin": "(?<!=|!)(=)(?!=)(?=\\s*\\S)",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.operator.assignment.ts"
+						}
+					},
+					"end": "(?=$|[,);}\\]])",
+					"patterns": [
+						{
+							"include": "#expression"
+						}
+					]
+				},
+				{
+					"begin": "(?<!=|!)(=)(?!=)",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.operator.assignment.ts"
+						}
+					},
+					"end": "(?=[,);}\\]])|(?=^\\s*$)",
+					"patterns": [
+						{
+							"include": "#expression"
+						}
+					]
 				}
 			]
 		},
 		"for-loop": {
-			"begin": "(?<!\\.|\\$)\\b(for)\\s*(\\()",
+			"begin": "(?<!\\.|\\$)\\b(for)(?:\\s+(await))?\\s*(\\()",
 			"beginCaptures": {
 				"1": {
 					"name": "keyword.control.loop.ts"
 				},
 				"2": {
+					"name": "keyword.control.loop.ts"
+				},
+				"3": {
 					"name": "meta.brace.round.ts"
 				}
 			},
@@ -2471,7 +2463,7 @@
 					"name": "keyword.operator.new.ts"
 				}
 			},
-			"end": "(?<=\\))|(?=[;),]|$|((?<!\\.|\\$)\\bnew\\b(?!\\$)))",
+			"end": "(?<=\\))|(?=[;),}]|$|((?<!\\.|\\$)\\bnew\\b(?!\\$)))",
 			"patterns": [
 				{
 					"include": "#paren-expression"
@@ -2684,7 +2676,7 @@
 					"match": "%|\\*|/|-|\\+"
 				},
 				{
-					"match": "(?<=[_$[:alnum:]])\\s*(/)(?![/*])",
+					"match": "(?<=[_$[:alnum:])])\\s*(/)(?![/*])",
 					"captures": {
 						"1": {
 							"name": "keyword.operator.arithmetic.ts"
@@ -3412,5 +3404,5 @@
 			]
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/7e9a0ce51e0575b626b37a11e764bb4d17a29a42"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/fcbd5708d922abc4535889648fb85288634a1a4d"
 }
