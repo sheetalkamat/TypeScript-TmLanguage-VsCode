@@ -2,7 +2,7 @@
     "name": "typescript-javascript-grammar",
     "private": true,
     "displayName": "Latest TypeScript and Javascript Grammar",
-    "description": "This is developement branch of VSCode JS/TS colorization. Please file any issues you find against https://github.com/Microsoft/TypeScript-TmLanguage/issues",
+    "description": "This is development branch of VSCode JS/TS colorization. Please file any issues you find against https://github.com/Microsoft/TypeScript-TmLanguage/issues",
     "license": "SEE LICENSE IN LICENSE.txt",
     "author": "Microsoft Corporation",
     "galleryBanner": {
