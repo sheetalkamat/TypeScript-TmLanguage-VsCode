@@ -35,9 +35,6 @@
 					"include": "#comment"
 				},
 				{
-					"include": "#literal"
-				},
-				{
 					"include": "#declaration"
 				},
 				{
@@ -334,7 +331,6 @@
 			]
 		},
 		"expression": {
-			"name": "meta.expression.tsx",
 			"patterns": [
 				{
 					"include": "#jsx"
@@ -352,10 +348,7 @@
 					"include": "#comment"
 				},
 				{
-					"include": "#literal"
-				},
-				{
-					"include": "#function-declaration"
+					"include": "#function-expression"
 				},
 				{
 					"include": "#class-or-interface-declaration"
@@ -380,6 +373,9 @@
 				},
 				{
 					"include": "#function-call"
+				},
+				{
+					"include": "#literal"
 				},
 				{
 					"include": "#support-objects"
@@ -413,17 +409,6 @@
 					"match": "(?<!\\.|\\$)\\b(return)\\b(?!\\$)"
 				},
 				{
-					"match": "(?<!\\.|\\$)\\b(yield)\\b(?!\\$)(?:\\s*(\\*))?",
-					"captures": {
-						"1": {
-							"name": "keyword.control.flow.tsx"
-						},
-						"2": {
-							"name": "keyword.generator.asterisk.tsx"
-						}
-					}
-				},
-				{
 					"name": "keyword.control.switch.tsx",
 					"match": "(?<!\\.|\\$)\\b(case|default|switch)\\b(?!\\$)"
 				},
@@ -446,7 +431,6 @@
 			]
 		},
 		"declaration": {
-			"name": "meta.declaration.tsx",
 			"patterns": [
 				{
 					"include": "#decorator"
@@ -883,7 +867,7 @@
 		},
 		"class-or-interface-declaration": {
 			"name": "meta.class.tsx",
-			"begin": "(?<!\\.|\\$)\\b(?:(export)\\s+)?\\b(?:(abstract)\\s+)?\\b(?:(class)|(interface))\\b",
+			"begin": "(?<!\\.|\\$)\\b(?:(export)\\s+)?\\b(?:(abstract)\\s+)?\\b(?:(class)|(interface))\\b(?=\\s+|/[/*])",
 			"beginCaptures": {
 				"1": {
 					"name": "keyword.control.export.tsx"
@@ -1353,7 +1337,43 @@
 					"name": "meta.definition.function.tsx entity.name.function.tsx"
 				}
 			},
-			"end": "(?=$|;|\\})|(?<=\\})",
+			"end": "(?=$|;)|(?<=\\})",
+			"patterns": [
+				{
+					"include": "#comment"
+				},
+				{
+					"include": "#type-parameters"
+				},
+				{
+					"include": "#function-parameters"
+				},
+				{
+					"include": "#return-type"
+				},
+				{
+					"include": "#decl-block"
+				}
+			]
+		},
+		"function-expression": {
+			"name": "meta.function.expression.tsx",
+			"begin": "(?<!\\.|\\$)\\b(?:(async)\\s+)?(function\\b)(?:\\s*(\\*))?(?:(?:\\s+|(?<=\\*))([_$[:alpha:]][_$[:alnum:]]*))?\\s*",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.modifier.async.tsx"
+				},
+				"2": {
+					"name": "storage.type.function.tsx"
+				},
+				"3": {
+					"name": "keyword.generator.asterisk.tsx"
+				},
+				"4": {
+					"name": "meta.definition.function.tsx entity.name.function.tsx"
+				}
+			},
+			"end": "(?<=\\})",
 			"patterns": [
 				{
 					"include": "#comment"
@@ -1697,7 +1717,6 @@
 			]
 		},
 		"type": {
-			"name": "meta.type.tsx",
 			"patterns": [
 				{
 					"include": "#comment"
@@ -1829,16 +1848,6 @@
 							"name": "keyword.control.new.tsx"
 						}
 					},
-					"end": "(?<=\\))",
-					"patterns": [
-						{
-							"include": "#function-parameters"
-						}
-					]
-				},
-				{
-					"name": "meta.type.function.tsx",
-					"begin": "(?<=\\>)\\s*(?=\\()",
 					"end": "(?<=\\))",
 					"patterns": [
 						{
@@ -2300,6 +2309,9 @@
 			"end": "(?<=\\))(?!(\\.\\s*)?([_$[:alpha:]][_$[:alnum:]]*)\\s*(<([^<>]|\\<[^<>]+\\>)+>\\s*)?\\()",
 			"patterns": [
 				{
+					"include": "#literal"
+				},
+				{
 					"include": "#support-objects"
 				},
 				{
@@ -2553,6 +2565,17 @@
 					"match": "(?<!\\.|\\$)\\b(await)\\b(?!\\$)"
 				},
 				{
+					"match": "(?<!\\.|\\$)\\b(yield)\\b(?!\\$)(?:\\s*(\\*))?",
+					"captures": {
+						"1": {
+							"name": "keyword.control.flow.tsx"
+						},
+						"2": {
+							"name": "keyword.generator.asterisk.tsx"
+						}
+					}
+				},
+				{
 					"name": "keyword.operator.expression.delete.tsx",
 					"match": "(?<!\\.|\\$)\\bdelete\\b(?!\\$)"
 				},
@@ -2721,7 +2744,7 @@
 					"name": "keyword.operator.type.annotation.tsx"
 				}
 			},
-			"end": "(?<!:)((?=$)|(?==>|;|//))",
+			"end": "(?==>)",
 			"patterns": [
 				{
 					"include": "#type-predicate-operator"
@@ -3064,7 +3087,6 @@
 			]
 		},
 		"literal": {
-			"name": "literal.tsx",
 			"patterns": [
 				{
 					"include": "#numeric-literal"
@@ -3647,5 +3669,5 @@
 			]
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/f97fcdbb2f80123605982ca63b9ba68bb837df87"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/603284f3588e8b29f36c55388c0fb9d48e264f83"
 }

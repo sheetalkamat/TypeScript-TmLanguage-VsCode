@@ -36,9 +36,6 @@
 					"include": "#comment"
 				},
 				{
-					"include": "#literal"
-				},
-				{
 					"include": "#declaration"
 				},
 				{
@@ -335,7 +332,6 @@
 			]
 		},
 		"expression": {
-			"name": "meta.expression.js",
 			"patterns": [
 				{
 					"include": "#jsx"
@@ -353,10 +349,7 @@
 					"include": "#comment"
 				},
 				{
-					"include": "#literal"
-				},
-				{
-					"include": "#function-declaration"
+					"include": "#function-expression"
 				},
 				{
 					"include": "#class-or-interface-declaration"
@@ -381,6 +374,9 @@
 				},
 				{
 					"include": "#function-call"
+				},
+				{
+					"include": "#literal"
 				},
 				{
 					"include": "#support-objects"
@@ -414,17 +410,6 @@
 					"match": "(?<!\\.|\\$)\\b(return)\\b(?!\\$)"
 				},
 				{
-					"match": "(?<!\\.|\\$)\\b(yield)\\b(?!\\$)(?:\\s*(\\*))?",
-					"captures": {
-						"1": {
-							"name": "keyword.control.flow.js"
-						},
-						"2": {
-							"name": "keyword.generator.asterisk.js"
-						}
-					}
-				},
-				{
 					"name": "keyword.control.switch.js",
 					"match": "(?<!\\.|\\$)\\b(case|default|switch)\\b(?!\\$)"
 				},
@@ -447,7 +432,6 @@
 			]
 		},
 		"declaration": {
-			"name": "meta.declaration.js",
 			"patterns": [
 				{
 					"include": "#decorator"
@@ -884,7 +868,7 @@
 		},
 		"class-or-interface-declaration": {
 			"name": "meta.class.js",
-			"begin": "(?<!\\.|\\$)\\b(?:(export)\\s+)?\\b(?:(abstract)\\s+)?\\b(?:(class)|(interface))\\b",
+			"begin": "(?<!\\.|\\$)\\b(?:(export)\\s+)?\\b(?:(abstract)\\s+)?\\b(?:(class)|(interface))\\b(?=\\s+|/[/*])",
 			"beginCaptures": {
 				"1": {
 					"name": "keyword.control.export.js"
@@ -1354,7 +1338,43 @@
 					"name": "meta.definition.function.js entity.name.function.js"
 				}
 			},
-			"end": "(?=$|;|\\})|(?<=\\})",
+			"end": "(?=$|;)|(?<=\\})",
+			"patterns": [
+				{
+					"include": "#comment"
+				},
+				{
+					"include": "#type-parameters"
+				},
+				{
+					"include": "#function-parameters"
+				},
+				{
+					"include": "#return-type"
+				},
+				{
+					"include": "#decl-block"
+				}
+			]
+		},
+		"function-expression": {
+			"name": "meta.function.expression.js",
+			"begin": "(?<!\\.|\\$)\\b(?:(async)\\s+)?(function\\b)(?:\\s*(\\*))?(?:(?:\\s+|(?<=\\*))([_$[:alpha:]][_$[:alnum:]]*))?\\s*",
+			"beginCaptures": {
+				"1": {
+					"name": "storage.modifier.async.js"
+				},
+				"2": {
+					"name": "storage.type.function.js"
+				},
+				"3": {
+					"name": "keyword.generator.asterisk.js"
+				},
+				"4": {
+					"name": "meta.definition.function.js entity.name.function.js"
+				}
+			},
+			"end": "(?<=\\})",
 			"patterns": [
 				{
 					"include": "#comment"
@@ -1698,7 +1718,6 @@
 			]
 		},
 		"type": {
-			"name": "meta.type.js",
 			"patterns": [
 				{
 					"include": "#comment"
@@ -1830,16 +1849,6 @@
 							"name": "keyword.control.new.js"
 						}
 					},
-					"end": "(?<=\\))",
-					"patterns": [
-						{
-							"include": "#function-parameters"
-						}
-					]
-				},
-				{
-					"name": "meta.type.function.js",
-					"begin": "(?<=\\>)\\s*(?=\\()",
 					"end": "(?<=\\))",
 					"patterns": [
 						{
@@ -2301,6 +2310,9 @@
 			"end": "(?<=\\))(?!(\\.\\s*)?([_$[:alpha:]][_$[:alnum:]]*)\\s*(<([^<>]|\\<[^<>]+\\>)+>\\s*)?\\()",
 			"patterns": [
 				{
+					"include": "#literal"
+				},
+				{
 					"include": "#support-objects"
 				},
 				{
@@ -2554,6 +2566,17 @@
 					"match": "(?<!\\.|\\$)\\b(await)\\b(?!\\$)"
 				},
 				{
+					"match": "(?<!\\.|\\$)\\b(yield)\\b(?!\\$)(?:\\s*(\\*))?",
+					"captures": {
+						"1": {
+							"name": "keyword.control.flow.js"
+						},
+						"2": {
+							"name": "keyword.generator.asterisk.js"
+						}
+					}
+				},
+				{
 					"name": "keyword.operator.expression.delete.js",
 					"match": "(?<!\\.|\\$)\\bdelete\\b(?!\\$)"
 				},
@@ -2722,7 +2745,7 @@
 					"name": "keyword.operator.type.annotation.js"
 				}
 			},
-			"end": "(?<!:)((?=$)|(?==>|;|//))",
+			"end": "(?==>)",
 			"patterns": [
 				{
 					"include": "#type-predicate-operator"
@@ -3065,7 +3088,6 @@
 			]
 		},
 		"literal": {
-			"name": "literal.js",
 			"patterns": [
 				{
 					"include": "#numeric-literal"
@@ -3648,5 +3670,5 @@
 			]
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/f97fcdbb2f80123605982ca63b9ba68bb837df87"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/603284f3588e8b29f36c55388c0fb9d48e264f83"
 }
