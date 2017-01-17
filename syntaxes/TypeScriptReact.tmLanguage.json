@@ -103,13 +103,7 @@
 					"end": "(?=$|[;,=}]|(\\s+(of|in)\\s+))",
 					"patterns": [
 						{
-							"include": "#type-annotation"
-						},
-						{
-							"include": "#string"
-						},
-						{
-							"include": "#comment"
+							"include": "#var-single-variable-type-annotation"
 						}
 					]
 				},
@@ -121,7 +115,12 @@
 							"name": "meta.definition.variable.tsx variable.other.constant.tsx"
 						}
 					},
-					"end": "(?=$|[;,=}]|(\\s+(of|in)\\s+))"
+					"end": "(?=$|[;,=}]|(\\s+(of|in)\\s+))",
+					"patterns": [
+						{
+							"include": "#var-single-variable-type-annotation"
+						}
+					]
 				},
 				{
 					"name": "meta.var-single-variable.expr.tsx",
@@ -134,15 +133,22 @@
 					"end": "(?=$|[;,=}]|(\\s+(of|in)\\s+))",
 					"patterns": [
 						{
-							"include": "#type-annotation"
-						},
-						{
-							"include": "#string"
-						},
-						{
-							"include": "#comment"
+							"include": "#var-single-variable-type-annotation"
 						}
 					]
+				}
+			]
+		},
+		"var-single-variable-type-annotation": {
+			"patterns": [
+				{
+					"include": "#type-annotation"
+				},
+				{
+					"include": "#string"
+				},
+				{
+					"include": "#comment"
 				}
 			]
 		},
@@ -2710,7 +2716,7 @@
 							"name": "storage.modifier.async.tsx"
 						}
 					},
-					"end": "(?==>)",
+					"end": "(?==>|\\{)",
 					"patterns": [
 						{
 							"include": "#comment"
@@ -2754,8 +2760,28 @@
 					"name": "keyword.operator.type.annotation.tsx"
 				}
 			},
-			"end": "(?==>)",
+			"end": "(?==>|\\{)",
 			"patterns": [
+				{
+					"name": "meta.object.type.tsx",
+					"begin": "(?<=:)\\s*(\\{)",
+					"beginCaptures": {
+						"1": {
+							"name": "punctuation.definition.block.tsx"
+						}
+					},
+					"end": "\\}",
+					"endCaptures": {
+						"0": {
+							"name": "punctuation.definition.block.tsx"
+						}
+					},
+					"patterns": [
+						{
+							"include": "#type-object-members"
+						}
+					]
+				},
 				{
 					"include": "#type-predicate-operator"
 				},
@@ -3679,5 +3705,5 @@
 			]
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/2ba46583a505787ef8c66628ea1351e5149fa40d"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/e47681d06a4db46d286c53b14ab0a5ab17e71cd8"
 }
