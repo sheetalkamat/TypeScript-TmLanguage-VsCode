@@ -1176,50 +1176,93 @@
 			]
 		},
 		"method-declaration": {
-			"name": "meta.method.declaration.tsx",
-			"begin": "(?<!\\.|\\$)(?:\\b(public|private|protected)\\s+)?(?:\\b(abstract)\\s+)?(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)?(?:(?:\\b(?:(new)|(constructor))\\b(?!\\$|\\.|:))|(?:(\\*)\\s*)?(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'[^']*\\')|(\\\"[^\"]*\\\")|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])+\\]))\\s*(\\??))?\\s*[\\(\\<]))",
-			"beginCaptures": {
-				"1": {
-					"name": "storage.modifier.tsx"
-				},
-				"2": {
-					"name": "storage.modifier.tsx"
-				},
-				"3": {
-					"name": "storage.modifier.async.tsx"
-				},
-				"4": {
-					"name": "storage.type.property.tsx"
-				},
-				"5": {
-					"name": "keyword.operator.new.tsx"
-				},
-				"6": {
-					"name": "storage.type.tsx"
-				},
-				"7": {
-					"name": "keyword.generator.asterisk.tsx"
-				}
-			},
-			"end": "(?=\\}|;|,|$)|(?<=\\})",
 			"patterns": [
 				{
-					"include": "#method-declaration-name"
+					"name": "meta.method.declaration.tsx",
+					"begin": "(?<!\\.|\\$)(?:\\b(public|private|protected)\\s+)?(?:\\b(abstract)\\s+)?(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)(?:(\\*)\\s*)?(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'[^']*\\')|(\\\"[^\"]*\\\")|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])+\\]))\\s*(\\??))\\s*[\\(\\<])",
+					"beginCaptures": {
+						"1": {
+							"name": "storage.modifier.tsx"
+						},
+						"2": {
+							"name": "storage.modifier.tsx"
+						},
+						"3": {
+							"name": "storage.modifier.async.tsx"
+						},
+						"4": {
+							"name": "storage.type.property.tsx"
+						},
+						"5": {
+							"name": "keyword.generator.asterisk.tsx"
+						}
+					},
+					"end": "(?=\\}|;|,|$)|(?<=\\})",
+					"patterns": [
+						{
+							"include": "#method-declaration-name"
+						},
+						{
+							"include": "#comment"
+						},
+						{
+							"include": "#type-parameters"
+						},
+						{
+							"include": "#function-parameters"
+						},
+						{
+							"include": "#return-type"
+						},
+						{
+							"include": "#decl-block"
+						}
+					]
 				},
 				{
-					"include": "#comment"
-				},
-				{
-					"include": "#type-parameters"
-				},
-				{
-					"include": "#function-parameters"
-				},
-				{
-					"include": "#return-type"
-				},
-				{
-					"include": "#decl-block"
+					"name": "meta.method.declaration.tsx",
+					"begin": "(?<!\\.|\\$)(?:\\b(public|private|protected)\\s+)?(?:\\b(abstract)\\s+)?(?:\\b(async)\\s+)?(?:(?:\\b(?:(new)|(constructor))\\b(?!\\$|\\.|:))|(?:(\\*)\\s*)?(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'[^']*\\')|(\\\"[^\"]*\\\")|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])+\\]))\\s*(\\??))?\\s*[\\(\\<]))",
+					"beginCaptures": {
+						"1": {
+							"name": "storage.modifier.tsx"
+						},
+						"2": {
+							"name": "storage.modifier.tsx"
+						},
+						"3": {
+							"name": "storage.modifier.async.tsx"
+						},
+						"4": {
+							"name": "keyword.operator.new.tsx"
+						},
+						"5": {
+							"name": "storage.type.tsx"
+						},
+						"6": {
+							"name": "keyword.generator.asterisk.tsx"
+						}
+					},
+					"end": "(?=\\}|;|,|$)|(?<=\\})",
+					"patterns": [
+						{
+							"include": "#method-declaration-name"
+						},
+						{
+							"include": "#comment"
+						},
+						{
+							"include": "#type-parameters"
+						},
+						{
+							"include": "#function-parameters"
+						},
+						{
+							"include": "#return-type"
+						},
+						{
+							"include": "#decl-block"
+						}
+					]
 				}
 			]
 		},
@@ -1245,7 +1288,7 @@
 		},
 		"object-literal-method-declaration": {
 			"name": "meta.method.declaration.tsx",
-			"begin": "(?<!\\.|\\$)(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)?(?:(\\*)\\s*)?(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'[^']*\\')|(\\\"[^\"]*\\\")|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])+\\]))\\s*(\\??))?\\s*[\\(\\<])",
+			"begin": "(?<!\\.|\\$)(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)?(?:(\\*)\\s*)?(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'[^']*\\')|(\\\"[^\"]*\\\")|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])+\\]))\\s*(\\??))\\s*[\\(\\<])",
 			"beginCaptures": {
 				"1": {
 					"name": "storage.modifier.async.tsx"
@@ -1283,7 +1326,7 @@
 			]
 		},
 		"object-literal-method-overload-declaration": {
-			"begin": "(?<!\\.|\\$)(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)?(?:(\\*)\\s*)?(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'[^']*\\')|(\\\"[^\"]*\\\")|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])+\\]))\\s*(\\??))?\\s*[\\(\\<])",
+			"begin": "(?<!\\.|\\$)(?:\\b(async)\\s+)?(?:\\b(get|set)\\s+)?(?:(\\*)\\s*)?(?=((([_$[:alpha:]][_$[:alnum:]]*)|(\\'[^']*\\')|(\\\"[^\"]*\\\")|(\\[([^\\[\\]]|\\[[^\\[\\]]*\\])+\\]))\\s*(\\??))\\s*[\\(\\<])",
 			"beginCaptures": {
 				"1": {
 					"name": "storage.modifier.async.tsx"
@@ -3355,25 +3398,17 @@
 					}
 				},
 				{
-					"begin": "(^[ \\t]+)?(?=//)",
+					"begin": "(^[ \\t]+)?(//)",
 					"beginCaptures": {
 						"1": {
 							"name": "punctuation.whitespace.comment.leading.tsx"
+						},
+						"2": {
+							"name": "comment.line.double-slash.tsx punctuation.definition.comment.tsx"
 						}
 					},
-					"end": "(?=^[^/][^/])",
-					"patterns": [
-						{
-							"name": "comment.line.double-slash.tsx",
-							"begin": "//",
-							"beginCaptures": {
-								"0": {
-									"name": "punctuation.definition.comment.tsx"
-								}
-							},
-							"end": "(?=^)"
-						}
-					]
+					"end": "(?=^)",
+					"contentName": "comment.line.double-slash.tsx"
 				}
 			]
 		},
@@ -4185,5 +4220,5 @@
 			]
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/6d8a963688c11c2de72e7f37df4118ce618d04e2"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/8c967fe7553297bfad672b7417d78e357c8fe724"
 }
