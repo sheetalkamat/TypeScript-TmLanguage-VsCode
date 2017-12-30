@@ -47,6 +47,11 @@
                 "path": "./syntaxes/JavaScript.tmLanguage.json"
             },
             {
+                "language": "javascriptreact",
+                "scopeName": "source.jsx",
+                "path": "./syntaxes/JavaScriptReact.tmLanguage.json"
+            },
+            {
                 "language": "typescript",
                 "scopeName": "source.ts",
                 "path": "./syntaxes/TypeScript.tmLanguage.json"

@@ -12,13 +12,13 @@ var https = require('https');
 var url = require('url');
 
 function adaptToJavaScript(grammar) {
-	grammar.name = 'JavaScript (with React support)';
-	grammar.fileTypes = ['.js', '.jsx' ];
+	grammar.name = 'JavaScript';
+	grammar.fileTypes = ['js'];
 	grammar.scopeName = 'source.js';
 
 	var fixScopeNames = function(rule) {
 		if (typeof rule.name === 'string') {
-			rule.name = rule.name.replace(/\.tsx/g, '.js');
+			rule.name = rule.name.replace(/\.ts/g, '.js');
 		}
 		for (var property in rule) {
 			var value = rule[property];
@@ -34,6 +34,28 @@ function adaptToJavaScript(grammar) {
 	}
 }
 
+function adaptToJavaScriptReact(grammar) {
+	grammar.name = 'JavaScriptReact';
+	grammar.fileTypes = ['jsx'];
+	grammar.scopeName = 'source.jsx';
+
+	var fixScopeNames = function(rule) {
+		if (typeof rule.name === 'string') {
+			rule.name = rule.name.replace(/\.tsx/g, '.jsx');
+		}
+		for (var property in rule) {
+			var value = rule[property];
+			if (typeof value === 'object') {
+				fixScopeNames(value);
+			}
+		}
+	};
+
+	var repository = grammar.repository;
+	for (var key in repository) {
+		fixScopeNames(repository[key]);
+	}
+}
 
 function getCommitSha(branchId) {
 	var commitInfo = 'https://api.github.com/repos/Microsoft/TypeScript-TmLanguage/branches/' + branchId;
@@ -108,5 +130,6 @@ exports.update = function (branchId, repoPath, dest, modifyGrammar) {
 if (path.basename(process.argv[1]) === 'update-grammar.js') {
 	exports.update(process.argv[2], 'TypeScript.tmLanguage', process.argv[3] + 'TypeScript.tmLanguage.json');
 	exports.update(process.argv[2], 'TypeScriptReact.tmLanguage', process.argv[3] + 'TypeScriptReact.tmLanguage.json');
-	exports.update(process.argv[2], 'TypeScriptReact.tmLanguage', process.argv[3] + 'JavaScript.tmLanguage.json', adaptToJavaScript);
+	exports.update(process.argv[2], 'TypeScript.tmLanguage', process.argv[3] + 'JavaScript.tmLanguage.json', adaptToJavaScript);
+	exports.update(process.argv[2], 'TypeScriptReact.tmLanguage', process.argv[3] + 'JavaScriptReact.tmLanguage.json', adaptToJavaScriptReact);
 }
