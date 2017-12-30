@@ -37,7 +37,7 @@ function adaptToJavaScript(grammar) {
 function adaptToJavaScriptReact(grammar) {
 	grammar.name = 'JavaScriptReact';
 	grammar.fileTypes = ['jsx'];
-	grammar.scopeName = 'source.js';
+	grammar.scopeName = 'source.jsx';
 
 	var fixScopeNames = function(rule) {
 		if (typeof rule.name === 'string') {

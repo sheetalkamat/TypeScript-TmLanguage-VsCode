@@ -1,6 +1,6 @@
 {
 	"name": "JavaScriptReact",
-	"scopeName": "source.js",
+	"scopeName": "source.jsx",
 	"fileTypes": [
 		"jsx"
 	],
