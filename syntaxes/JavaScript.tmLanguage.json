@@ -1717,7 +1717,7 @@
 					"include": "#comment"
 				},
 				{
-					"match": "(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(?:(\\bdefault)|(\\*)|(\\b[_$[:alpha:]][_$[:alnum:]]*))\\s+(as)\\s+(\\b[_$[:alpha:]][_$[:alnum:]]*)",
+					"match": "(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(?:(\\bdefault)|(\\*)|(\\b[_$[:alpha:]][_$[:alnum:]]*))\\s+(as)\\s+(?:(\\bdefault(?![_$[:alnum:]])(?:(?=\\.\\.\\.)|(?!\\.)))|(\\b[_$[:alpha:]][_$[:alnum:]]*))",
 					"captures": {
 						"1": {
 							"name": "keyword.control.default.js"
@@ -1732,6 +1732,9 @@
 							"name": "keyword.control.as.js"
 						},
 						"5": {
+							"name": "keyword.control.default.js"
+						},
+						"6": {
 							"name": "variable.other.readwrite.alias.js"
 						}
 					}
@@ -2875,6 +2878,9 @@
 					"include": "#type-object"
 				},
 				{
+					"include": "#type-conditional"
+				},
+				{
 					"include": "#type-operators"
 				},
 				{
@@ -2979,6 +2985,17 @@
 					"include": "#type"
 				}
 			]
+		},
+		"type-conditional": {
+			"match": "(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))([_$[:alpha:]][_$[:alnum:]]*)\\s+(extends)\\s+",
+			"captures": {
+				"1": {
+					"name": "entity.name.type.js"
+				},
+				"2": {
+					"name": "storage.modifier.js"
+				}
+			}
 		},
 		"type-paren-or-function-parameters": {
 			"name": "meta.type.paren.cover.js",
@@ -3128,6 +3145,10 @@
 				{
 					"name": "keyword.operator.expression.keyof.js",
 					"match": "(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))keyof(?![_$[:alnum:]])(?:(?=\\.\\.\\.)|(?!\\.))"
+				},
+				{
+					"name": "keyword.operator.ternary.js",
+					"match": "(\\?|\\:)"
 				}
 			]
 		},
@@ -4319,5 +4340,5 @@
 			"match": "\\S+"
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/cbac0d4f9adeaf667858731bb6e5b36560fe3110"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/24c7fb5254f50dad85eae03836b1b9ff92ecf273"
 }
