@@ -3148,6 +3148,10 @@
 				{
 					"name": "keyword.operator.ternary.tsx",
 					"match": "(\\?|\\:)"
+				},
+				{
+					"name": "keyword.operator.expression.infer.tsx",
+					"match": "(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))infer(?=\\s+[_$[:alpha:]])"
 				}
 			]
 		},
@@ -4339,5 +4343,5 @@
 			"match": "\\S+"
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/24c7fb5254f50dad85eae03836b1b9ff92ecf273"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/77d21fd8d3f750fcf67bdf7436f4e46565cba350"
 }
