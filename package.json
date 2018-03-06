@@ -16,7 +16,7 @@
         "vscode": "*"
     },
     "scripts": {
-        "update-grammar": "node ./build/update-grammar.js master ./syntaxes/"
+        "update-grammar": "node ./build/update-grammar.js"
     },
     "devDependencies": {
         "fast-plist": "0.1.1"

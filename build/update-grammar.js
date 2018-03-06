@@ -20,6 +20,9 @@ function adaptToJavaScript(grammar) {
 		if (typeof rule.name === 'string') {
 			rule.name = rule.name.replace(/\.tsx/g, '.js');
 		}
+		if (typeof rule.contentName === 'string') {
+			rule.contentName = rule.contentName.replace(/\.tsx/g, '.js');
+		}
 		for (var property in rule) {
 			var value = rule[property];
 			if (typeof value === 'object') {
@@ -105,8 +108,7 @@ exports.update = function (branchId, repoPath, dest, modifyGrammar) {
 	}, console.error);
 }
 
-if (path.basename(process.argv[1]) === 'update-grammar.js') {
-	exports.update(process.argv[2], 'TypeScript.tmLanguage', process.argv[3] + 'TypeScript.tmLanguage.json');
-	exports.update(process.argv[2], 'TypeScriptReact.tmLanguage', process.argv[3] + 'TypeScriptReact.tmLanguage.json');
-	exports.update(process.argv[2], 'TypeScriptReact.tmLanguage', process.argv[3] + 'JavaScript.tmLanguage.json', adaptToJavaScript);
-}
+var branch = process.argv[2] || "master";
+exports.update(branch, 'TypeScript.tmLanguage', './syntaxes/TypeScript.tmLanguage.json');
+exports.update(branch, 'TypeScriptReact.tmLanguage', './syntaxes/TypeScriptReact.tmLanguage.json');
+exports.update(branch, 'TypeScriptReact.tmLanguage', './syntaxes/JavaScript.tmLanguage.json', adaptToJavaScript);
