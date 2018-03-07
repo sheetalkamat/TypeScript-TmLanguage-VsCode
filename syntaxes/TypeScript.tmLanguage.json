@@ -185,6 +185,9 @@
 					"include": "#expression-operators"
 				},
 				{
+					"include": "#paren-expression-possibly-arrow"
+				},
+				{
 					"include": "#function-call"
 				},
 				{
@@ -192,9 +195,6 @@
 				},
 				{
 					"include": "#support-objects"
-				},
-				{
-					"include": "#paren-expression-possibly-arrow"
 				},
 				{
 					"include": "#paren-expression"
@@ -2190,9 +2190,12 @@
 		"paren-expression-possibly-arrow": {
 			"patterns": [
 				{
-					"begin": "(\\()(?=\\s*$)",
+					"begin": "(?:(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(\\basync)\\s*)?(\\()(?=\\s*$)",
 					"beginCaptures": {
 						"1": {
+							"name": "storage.modifier.async.ts"
+						},
+						"2": {
 							"name": "meta.brace.round.ts"
 						}
 					},
@@ -4207,5 +4210,5 @@
 			]
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/9e61a2f3b5dba8aef49ff3b95d4ad89eddd975a7"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/a184e39826adbaa20dcfe317e9d1f1ba5cdbff6c"
 }
