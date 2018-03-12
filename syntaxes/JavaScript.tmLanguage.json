@@ -2095,9 +2095,9 @@
 					"name": "keyword.operator.ternary.js"
 				}
 			},
-			"end": "(:)",
+			"end": "\\s*(:)",
 			"endCaptures": {
-				"0": {
+				"1": {
 					"name": "keyword.operator.ternary.js"
 				}
 			},
@@ -2211,21 +2211,40 @@
 		"paren-expression-possibly-arrow": {
 			"patterns": [
 				{
-					"begin": "(?:(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(\\basync))?(?=\\s*(<\\s*([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))([^=<>]|=[^<]|\\<\\s*([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))([^=<>]|=[^<])*\\>)*>\\s*)\\(\\s*$)",
+					"begin": "(?<=[(=,]|=>)\\s*(async)?(?=\\s*(<\\s*([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))([^=<>]|=[^<]|\\<\\s*([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))([^=<>]|=[^<])*\\>)*>\\s*)\\(\\s*$)",
 					"beginCaptures": {
 						"1": {
 							"name": "storage.modifier.async.js"
 						}
 					},
-					"end": "(?<=>)(?!<)",
+					"end": "(?<=\\))",
 					"patterns": [
 						{
 							"include": "#type-parameters"
+						},
+						{
+							"begin": "\\(",
+							"beginCaptures": {
+								"0": {
+									"name": "meta.brace.round.js"
+								}
+							},
+							"end": "\\)",
+							"endCaptures": {
+								"0": {
+									"name": "meta.brace.round.js"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#expression-inside-possibly-arrow-parens"
+								}
+							]
 						}
 					]
 				},
 				{
-					"begin": "(?:(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(\\basync)\\s*)?(\\()(?=\\s*$)",
+					"begin": "(?<=[(=,]|=>)\\s*(async)?\\s*(\\()(?=\\s*$)",
 					"beginCaptures": {
 						"1": {
 							"name": "storage.modifier.async.js"
@@ -2242,21 +2261,28 @@
 					},
 					"patterns": [
 						{
-							"include": "#expressionWithoutIdentifiers"
-						},
-						{
-							"include": "#function-parameters-body"
-						},
-						{
-							"include": "#identifiers"
-						},
-						{
-							"include": "#expressionPunctuations"
+							"include": "#expression-inside-possibly-arrow-parens"
 						}
 					]
 				},
 				{
 					"include": "#possibly-arrow-return-type"
+				}
+			]
+		},
+		"expression-inside-possibly-arrow-parens": {
+			"patterns": [
+				{
+					"include": "#expressionWithoutIdentifiers"
+				},
+				{
+					"include": "#function-parameters-body"
+				},
+				{
+					"include": "#identifiers"
+				},
+				{
+					"include": "#expressionPunctuations"
 				}
 			]
 		},
@@ -4540,5 +4566,5 @@
 			"match": "\\S+"
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/a7fa5b585a07a83d2743aaa9600e6a28e8e0d3c9"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/bf14f623174cf50e0b0426c3a1cda8dea1511aa5"
 }
