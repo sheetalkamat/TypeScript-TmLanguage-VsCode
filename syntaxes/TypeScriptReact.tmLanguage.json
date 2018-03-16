@@ -749,8 +749,15 @@
 							"include": "#comment"
 						},
 						{
-							"name": "meta.definition.property.tsx entity.name.function.tsx",
-							"match": "(?x)([_$[:alpha:]][_$[:alnum:]]*)(?=(\\?\\s*)?\\s*\n# function assignment |\n(=\\s*(\n  ((async\\s+)?(\n    (function\\s*[(<*]) |\n    (function\\s+) |\n    ([_$[:alpha:]][_$[:alnum:]]*\\s*=>)\n  )) |\n  ((async\\s*)?(\n    ([\\(]\\s*$) |\n    # sure shot arrow functions even if => is on new line\n(\n  [(]\\s*\n  (\n    ([)]\\s*:) |                                                                                       # ():\n    ((\\.\\.\\.\\s*)?[_$[:alpha:]][_$[:alnum:]]*\\s*:)                                                                  # [(]param: | [(]...param:\n  )\n) |\n(\n  [<]\\s*[_$[:alpha:]][_$[:alnum:]]*\\s+extends\\s*[^=>]                                                              # < typeparam extends\n) |\n# arrow function possible to detect only with => on same line\n(\n  (<\\s*([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))([^=<>]|=[^<]|\\<\\s*([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))([^=<>]|=[^<])*\\>)*>\\s*)?                                                                                 # typeparameters\n  \\(\\s*(([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))([^()]|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\)))*)?\\)   # parameters\n  (\\s*:\\s*([^<>\\(\\)]|\\<[^<>]+\\>|\\([^\\(\\)]+\\))+)?                                                                        # return type\n  \\s*=>                                                                                               # arrow operator\n)\n  ))\n)) |\n# typeannotation is fn type: < | () | (... | (param: | (param, | (param? | (param= | (param) =>\n(:\\s*(\n  (<) |\n  ([(]\\s*(\n    ([)]) |\n    (\\.\\.\\.) |\n    ([_$[:alnum:]]+\\s*(\n      ([:,?=])|\n      ([)]\\s*=>)\n    ))\n  ))\n)) |\n(:\\s*(=>|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(<[^<>]*>)|[^<>(),=])+=\\s*(\n  ((async\\s+)?(\n    (function\\s*[(<*]) |\n    (function\\s+) |\n    ([_$[:alpha:]][_$[:alnum:]]*\\s*=>)\n  )) |\n  ((async\\s*)?(\n    ([\\(]\\s*$) |\n    # sure shot arrow functions even if => is on new line\n(\n  [(]\\s*\n  (\n    ([)]\\s*:) |                                                                                       # ():\n    ((\\.\\.\\.\\s*)?[_$[:alpha:]][_$[:alnum:]]*\\s*:)                                                                  # [(]param: | [(]...param:\n  )\n) |\n(\n  [<]\\s*[_$[:alpha:]][_$[:alnum:]]*\\s+extends\\s*[^=>]                                                              # < typeparam extends\n) |\n# arrow function possible to detect only with => on same line\n(\n  (<\\s*([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))([^=<>]|=[^<]|\\<\\s*([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))([^=<>]|=[^<])*\\>)*>\\s*)?                                                                                 # typeparameters\n  \\(\\s*(([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))([^()]|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\)))*)?\\)   # parameters\n  (\\s*:\\s*([^<>\\(\\)]|\\<[^<>]+\\>|\\([^\\(\\)]+\\))+)?                                                                        # return type\n  \\s*=>                                                                                               # arrow operator\n)\n  ))\n)))"
+							"match": "(?x)([_$[:alpha:]][_$[:alnum:]]*)(\\?)?(?=(\\?\\s*)?\\s*\n# function assignment |\n(=\\s*(\n  ((async\\s+)?(\n    (function\\s*[(<*]) |\n    (function\\s+) |\n    ([_$[:alpha:]][_$[:alnum:]]*\\s*=>)\n  )) |\n  ((async\\s*)?(\n    ([\\(]\\s*$) |\n    # sure shot arrow functions even if => is on new line\n(\n  [(]\\s*\n  (\n    ([)]\\s*:) |                                                                                       # ():\n    ((\\.\\.\\.\\s*)?[_$[:alpha:]][_$[:alnum:]]*\\s*:)                                                                  # [(]param: | [(]...param:\n  )\n) |\n(\n  [<]\\s*[_$[:alpha:]][_$[:alnum:]]*\\s+extends\\s*[^=>]                                                              # < typeparam extends\n) |\n# arrow function possible to detect only with => on same line\n(\n  (<\\s*([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))([^=<>]|=[^<]|\\<\\s*([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))([^=<>]|=[^<])*\\>)*>\\s*)?                                                                                 # typeparameters\n  \\(\\s*(([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))([^()]|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\)))*)?\\)   # parameters\n  (\\s*:\\s*([^<>\\(\\)]|\\<[^<>]+\\>|\\([^\\(\\)]+\\))+)?                                                                        # return type\n  \\s*=>                                                                                               # arrow operator\n)\n  ))\n)) |\n# typeannotation is fn type: < | () | (... | (param: | (param, | (param? | (param= | (param) =>\n(:\\s*(\n  (<) |\n  ([(]\\s*(\n    ([)]) |\n    (\\.\\.\\.) |\n    ([_$[:alnum:]]+\\s*(\n      ([:,?=])|\n      ([)]\\s*=>)\n    ))\n  ))\n)) |\n(:\\s*(=>|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(<[^<>]*>)|[^<>(),=])+=\\s*(\n  ((async\\s+)?(\n    (function\\s*[(<*]) |\n    (function\\s+) |\n    ([_$[:alpha:]][_$[:alnum:]]*\\s*=>)\n  )) |\n  ((async\\s*)?(\n    ([\\(]\\s*$) |\n    # sure shot arrow functions even if => is on new line\n(\n  [(]\\s*\n  (\n    ([)]\\s*:) |                                                                                       # ():\n    ((\\.\\.\\.\\s*)?[_$[:alpha:]][_$[:alnum:]]*\\s*:)                                                                  # [(]param: | [(]...param:\n  )\n) |\n(\n  [<]\\s*[_$[:alpha:]][_$[:alnum:]]*\\s+extends\\s*[^=>]                                                              # < typeparam extends\n) |\n# arrow function possible to detect only with => on same line\n(\n  (<\\s*([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))([^=<>]|=[^<]|\\<\\s*([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))([^=<>]|=[^<])*\\>)*>\\s*)?                                                                                 # typeparameters\n  \\(\\s*(([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))([^()]|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\)))*)?\\)   # parameters\n  (\\s*:\\s*([^<>\\(\\)]|\\<[^<>]+\\>|\\([^\\(\\)]+\\))+)?                                                                        # return type\n  \\s*=>                                                                                               # arrow operator\n)\n  ))\n)))",
+							"captures": {
+								"1": {
+									"name": "meta.definition.property.tsx entity.name.function.tsx"
+								},
+								"2": {
+									"name": "keyword.operator.optional.tsx"
+								}
+							}
 						},
 						{
 							"name": "meta.definition.property.tsx variable.object.property.tsx",
@@ -2145,27 +2152,7 @@
 					"match": "\\?\\."
 				},
 				{
-					"name": "meta.type.parameters.tsx",
-					"begin": "\\<",
-					"beginCaptures": {
-						"0": {
-							"name": "punctuation.definition.typeparameters.begin.tsx"
-						}
-					},
-					"end": "\\>",
-					"endCaptures": {
-						"0": {
-							"name": "punctuation.definition.typeparameters.end.tsx"
-						}
-					},
-					"patterns": [
-						{
-							"include": "#type"
-						},
-						{
-							"include": "#punctuation-comma"
-						}
-					]
+					"include": "#type-arguments"
 				},
 				{
 					"include": "#paren-expression"
@@ -2437,7 +2424,7 @@
 					"match": "%|\\*|/|-|\\+"
 				},
 				{
-					"match": "(?<=[_$[:alnum:])])\\s*(/)(?![/*])",
+					"match": "(?<=[_$[:alnum:])\\]])\\s*(/)(?![/*])",
 					"captures": {
 						"1": {
 							"name": "keyword.operator.arithmetic.tsx"
@@ -3036,6 +3023,29 @@
 				}
 			]
 		},
+		"type-arguments": {
+			"name": "meta.type.parameters.tsx",
+			"begin": "\\<",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.typeparameters.begin.tsx"
+				}
+			},
+			"end": "\\>",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.typeparameters.end.tsx"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#type"
+				},
+				{
+					"include": "#punctuation-comma"
+				}
+			]
+		},
 		"type": {
 			"patterns": [
 				{
@@ -3338,6 +3348,10 @@
 				{
 					"name": "keyword.operator.expression.infer.tsx",
 					"match": "(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))infer(?=\\s+[_$[:alpha:]])"
+				},
+				{
+					"name": "keyword.operator.expression.import.tsx",
+					"match": "(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))import(?=\\s*\\()"
 				}
 			]
 		},
@@ -3520,7 +3534,7 @@
 				},
 				{
 					"name": "string.regexp.tsx",
-					"begin": "(?<![_$[:alnum:])])\\/(?![\\/*])(?=(?:[^\\/\\\\\\[]|\\\\.|\\[([^\\]\\\\]|\\\\.)+\\])+\\/(?![\\/*])[gimuy]*(?!\\s*[a-zA-Z0-9_$]))",
+					"begin": "(?<![_$[:alnum:])\\]])\\/(?![\\/*])(?=(?:[^\\/\\\\\\[]|\\\\.|\\[([^\\]\\\\]|\\\\.)+\\])+\\/(?![\\/*])[gimuy]*(?!\\s*[a-zA-Z0-9_$]))",
 					"beginCaptures": {
 						"0": {
 							"name": "punctuation.definition.string.begin.tsx"
@@ -4243,8 +4257,8 @@
 			]
 		},
 		"jsx-tag-without-attributes-in-expression": {
-			"begin": "(?x)\n  (?<=[({\\[,?=>:*]|&&|\\|\\||\\?|^return|[^\\._$[:alnum:]]return|^default|[^\\._$[:alnum:]]default|^)\\s*\n  (?=(<)\\s*(?:([_$a-zA-Z][-$\\w.]*)(?<!\\.|-)(:))?((?:[a-z][a-z0-9]*|([_$a-zA-Z][-$\\w.]*))(?<!\\.|-))?\\s*(>))",
-			"end": "(?!\\s*(<)\\s*(?:([_$a-zA-Z][-$\\w.]*)(?<!\\.|-)(:))?((?:[a-z][a-z0-9]*|([_$a-zA-Z][-$\\w.]*))(?<!\\.|-))?\\s*(>))",
+			"begin": "(?<=[({\\[,?=>:*]|&&|\\|\\||\\?|^return|[^\\._$[:alnum:]]return|^default|[^\\._$[:alnum:]]default|^)\\s*(?=(<)\\s*(?:([_$a-zA-Z][-$\\w.]*)(?<!\\.|-)(:))?((?:[a-z][a-z0-9]*|([_$a-zA-Z][-$\\w.]*))(?<!\\.|-))?\\s*(>))",
+			"end": "(?!(<)\\s*(?:([_$a-zA-Z][-$\\w.]*)(?<!\\.|-)(:))?((?:[a-z][a-z0-9]*|([_$a-zA-Z][-$\\w.]*))(?<!\\.|-))?\\s*(>))",
 			"patterns": [
 				{
 					"include": "#jsx-tag-without-attributes"
@@ -4303,69 +4317,8 @@
 			]
 		},
 		"jsx-tag-in-expression": {
-			"begin": "(?x)\n  (?<=[({\\[,?=>:*]|&&|\\|\\||\\?|^return|[^\\._$[:alnum:]]return|^default|[^\\._$[:alnum:]]default|^)\\s*\n  (?!<\\s*[_$[:alpha:]][_$[:alnum:]]*((\\s+extends\\s+[^=>])|,)) # look ahead is not type parameter of arrow\n  (?=(<)\\s*\n  ([_$a-zA-Z][-$\\w.]*(?<!\\.|-):)?\n  ([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\n  (?=\\s+(?!\\?)|/?>))",
-			"end": "(/>)|(?:(</)\\s*(?:([_$a-zA-Z][-$\\w.]*)(?<!\\.|-)(:))?((?:[a-z][a-z0-9]*|([_$a-zA-Z][-$\\w.]*))(?<!\\.|-))\\s*(>))",
-			"endCaptures": {
-				"0": {
-					"name": "meta.tag.tsx"
-				},
-				"1": {
-					"name": "punctuation.definition.tag.end.tsx"
-				},
-				"2": {
-					"name": "punctuation.definition.tag.begin.tsx"
-				},
-				"3": {
-					"name": "entity.name.tag.namespace.tsx"
-				},
-				"4": {
-					"name": "punctuation.separator.namespace.tsx"
-				},
-				"5": {
-					"name": "entity.name.tag.tsx"
-				},
-				"6": {
-					"name": "support.class.component.tsx"
-				},
-				"7": {
-					"name": "punctuation.definition.tag.end.tsx"
-				}
-			},
-			"patterns": [
-				{
-					"include": "#jsx-tag"
-				}
-			]
-		},
-		"jsx-child-tag": {
-			"begin": "(?x)\n  (?=(<)\\s*\n  ([_$a-zA-Z][-$\\w.]*(?<!\\.|-):)?\n  ([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\n  (?=\\s+(?!\\?)|/?>))",
-			"end": "(/>)|(?:(</)\\s*(?:([_$a-zA-Z][-$\\w.]*)(?<!\\.|-)(:))?((?:[a-z][a-z0-9]*|([_$a-zA-Z][-$\\w.]*))(?<!\\.|-))\\s*(>))",
-			"endCaptures": {
-				"0": {
-					"name": "meta.tag.tsx"
-				},
-				"1": {
-					"name": "punctuation.definition.tag.end.tsx"
-				},
-				"2": {
-					"name": "punctuation.definition.tag.begin.tsx"
-				},
-				"3": {
-					"name": "entity.name.tag.namespace.tsx"
-				},
-				"4": {
-					"name": "punctuation.separator.namespace.tsx"
-				},
-				"5": {
-					"name": "entity.name.tag.tsx"
-				},
-				"6": {
-					"name": "support.class.component.tsx"
-				},
-				"7": {
-					"name": "punctuation.definition.tag.end.tsx"
-				}
-			},
+			"begin": "(?x)\n  (?<=[({\\[,?=>:*]|&&|\\|\\||\\?|^return|[^\\._$[:alnum:]]return|^default|[^\\._$[:alnum:]]default|^)\\s*\n  (?!<\\s*[_$[:alpha:]][_$[:alnum:]]*((\\s+extends\\s+[^=>])|,)) # look ahead is not type parameter of arrow\n  (?=(<)\\s*(?:([_$a-zA-Z][-$\\w.]*)(?<!\\.|-)(:))?((?:[a-z][a-z0-9]*|([_$a-zA-Z][-$\\w.]*))(?<!\\.|-))(?=(<\\s*(([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))|(\\'[^\\']*\\')|(\\\"[^\\\"]*\\\")|(\\`[^\\`]*\\`))([^<>\\(]|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(?<==)\\>|\\<\\s*(([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))|(\\'[^\\']*\\')|(\\\"[^\\\"]*\\\")|(\\`[^\\`]*\\`))([^<>\\(]|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(?<==)\\>)*(?!=)\\>)*(?!=)>)?\\s+(?!\\?)|\\/?>))",
+			"end": "(?!(<)\\s*(?:([_$a-zA-Z][-$\\w.]*)(?<!\\.|-)(:))?((?:[a-z][a-z0-9]*|([_$a-zA-Z][-$\\w.]*))(?<!\\.|-))(?=(<\\s*(([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))|(\\'[^\\']*\\')|(\\\"[^\\\"]*\\\")|(\\`[^\\`]*\\`))([^<>\\(]|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(?<==)\\>|\\<\\s*(([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))|(\\'[^\\']*\\')|(\\\"[^\\\"]*\\\")|(\\`[^\\`]*\\`))([^<>\\(]|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(?<==)\\>)*(?!=)\\>)*(?!=)>)?\\s+(?!\\?)|\\/?>))",
 			"patterns": [
 				{
 					"include": "#jsx-tag"
@@ -4374,11 +4327,34 @@
 		},
 		"jsx-tag": {
 			"name": "meta.tag.tsx",
-			"begin": "(?x)\n  (?=(<)\\s*\n  (?:([_$a-zA-Z][-$\\w.]*)(?<!\\.|-)(:))?\n  ([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\n  (?=\\s+(?!\\?)|/?>))",
-			"end": "(?=(/>)|(?:(</)\\s*(?:([_$a-zA-Z][-$\\w.]*)(?<!\\.|-)(:))?([_$a-zA-Z][-$\\w.]*(?<!\\.|-))\\s*(>)))",
+			"begin": "(?=(<)\\s*(?:([_$a-zA-Z][-$\\w.]*)(?<!\\.|-)(:))?((?:[a-z][a-z0-9]*|([_$a-zA-Z][-$\\w.]*))(?<!\\.|-))(?=(<\\s*(([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))|(\\'[^\\']*\\')|(\\\"[^\\\"]*\\\")|(\\`[^\\`]*\\`))([^<>\\(]|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(?<==)\\>|\\<\\s*(([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))|(\\'[^\\']*\\')|(\\\"[^\\\"]*\\\")|(\\`[^\\`]*\\`))([^<>\\(]|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(?<==)\\>)*(?!=)\\>)*(?!=)>)?\\s+(?!\\?)|\\/?>))",
+			"end": "(/>)|(?:(</)\\s*(?:([_$a-zA-Z][-$\\w.]*)(?<!\\.|-)(:))?((?:[a-z][a-z0-9]*|([_$a-zA-Z][-$\\w.]*))(?<!\\.|-))?\\s*(>))",
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.definition.tag.end.tsx"
+				},
+				"2": {
+					"name": "punctuation.definition.tag.begin.tsx"
+				},
+				"3": {
+					"name": "entity.name.tag.namespace.tsx"
+				},
+				"4": {
+					"name": "punctuation.separator.namespace.tsx"
+				},
+				"5": {
+					"name": "entity.name.tag.tsx"
+				},
+				"6": {
+					"name": "support.class.component.tsx"
+				},
+				"7": {
+					"name": "punctuation.definition.tag.end.tsx"
+				}
+			},
 			"patterns": [
 				{
-					"begin": "(?x)\n  (<)\\s*\n  (?:([_$a-zA-Z][-$\\w.]*)(?<!\\.|-)(:))?\n  ((?:[a-z][a-z0-9]*|([_$a-zA-Z][-$\\w.]*))(?<!\\.|-))\n  (?=\\s+(?!\\?)|/?>)",
+					"begin": "(<)\\s*(?:([_$a-zA-Z][-$\\w.]*)(?<!\\.|-)(:))?((?:[a-z][a-z0-9]*|([_$a-zA-Z][-$\\w.]*))(?<!\\.|-))(?=(<\\s*(([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))|(\\'[^\\']*\\')|(\\\"[^\\\"]*\\\")|(\\`[^\\`]*\\`))([^<>\\(]|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(?<==)\\>|\\<\\s*(([_$[:alpha:]]|(\\{([^\\{\\}]|(\\{[^\\{\\}]*\\}))*\\})|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(\\[([^\\[\\]]|(\\[[^\\[\\]]*\\]))*\\]))|(\\'[^\\']*\\')|(\\\"[^\\\"]*\\\")|(\\`[^\\`]*\\`))([^<>\\(]|(\\(([^\\(\\)]|(\\([^\\(\\)]*\\)))*\\))|(?<==)\\>)*(?!=)\\>)*(?!=)>)?\\s+(?!\\?)|\\/?>)",
 					"beginCaptures": {
 						"1": {
 							"name": "punctuation.definition.tag.begin.tsx"
@@ -4397,16 +4373,15 @@
 						}
 					},
 					"end": "(?=[/]?>)",
-					"contentName": "meta.tag.attributes.tsx",
 					"patterns": [
 						{
 							"include": "#comment"
 						},
 						{
-							"include": "#jsx-tag-attributes"
+							"include": "#type-arguments"
 						},
 						{
-							"include": "#jsx-tag-attributes-illegal"
+							"include": "#jsx-tag-attributes"
 						}
 					]
 				},
@@ -4433,7 +4408,7 @@
 					"include": "#jsx-tag-without-attributes"
 				},
 				{
-					"include": "#jsx-child-tag"
+					"include": "#jsx-tag"
 				},
 				{
 					"include": "#jsx-evaluated-code"
@@ -4484,6 +4459,9 @@
 			]
 		},
 		"jsx-tag-attributes": {
+			"name": "meta.tag.attributes.tsx",
+			"begin": "\\s+",
+			"end": "(?=[/]?>)",
 			"patterns": [
 				{
 					"include": "#jsx-tag-attribute-name"
@@ -4499,6 +4477,9 @@
 				},
 				{
 					"include": "#jsx-evaluated-code"
+				},
+				{
+					"include": "#jsx-tag-attributes-illegal"
 				}
 			]
 		},
@@ -4565,5 +4546,5 @@
 			"match": "\\S+"
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/bf14f623174cf50e0b0426c3a1cda8dea1511aa5"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/b83a38f731e311cd320d4d8808b64d97affbc964"
 }
