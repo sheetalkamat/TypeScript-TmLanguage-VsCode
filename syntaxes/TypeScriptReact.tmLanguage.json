@@ -1178,7 +1178,7 @@
 					"name": "meta.definition.function.tsx entity.name.function.tsx"
 				}
 			},
-			"end": "(?<=\\})",
+			"end": "(?=;)|(?<=\\})",
 			"patterns": [
 				{
 					"include": "#function-name"
@@ -2110,7 +2110,7 @@
 				},
 				{
 					"name": "meta.export.tsx",
-					"begin": "(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(export)(?!\\s*:)((?=\\s*[\\{*])|((?=\\s*[_$[:alpha:]][_$[:alnum:]]*(\\s|,))(?!\\s*(?:abstract|async|class|const|declare|enum|export|function|import|interface|let|module|namespace|return|type|var)\\b)))",
+					"begin": "(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(export)\\b(?!(\\$)|(\\s*:))((?=\\s*[\\{*])|((?=\\s*[_$[:alpha:]][_$[:alnum:]]*(\\s|,))(?!\\s*(?:abstract|async|class|const|declare|enum|export|function|import|interface|let|module|namespace|return|type|var)\\b)))",
 					"beginCaptures": {
 						"0": {
 							"name": "keyword.control.export.tsx"
@@ -2171,7 +2171,7 @@
 					"include": "#comment"
 				},
 				{
-					"match": "(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(?:(\\bdefault)|(\\*)|(\\b[_$[:alpha:]][_$[:alnum:]]*))\\s+(as)\\s+(?:(\\bdefault(?![_$[:alnum:]])(?:(?=\\.\\.\\.)|(?!\\.)))|(\\b[_$[:alpha:]][_$[:alnum:]]*))",
+					"match": "(?<![_$[:alnum:]])(?:(?<=\\.\\.\\.)|(?<!\\.))(?:(\\bdefault)|(\\*)|(\\b[_$[:alpha:]][_$[:alnum:]]*))\\s+(as)\\s+(?:(default(?![_$[:alnum:]])(?:(?=\\.\\.\\.)|(?!\\.)))|([_$[:alpha:]][_$[:alnum:]]*))",
 					"captures": {
 						"1": {
 							"name": "keyword.control.default.tsx"
@@ -5217,5 +5217,5 @@
 			"match": "\\S+"
 		}
 	},
-	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/a9ad6eb7b4d699117c959dbd02f7f3e2e14f1d02"
+	"version": "https://github.com/Microsoft/TypeScript-TmLanguage/commit/c90418c57af09ddc7bd6827895052a6276ef8a9f"
 }
