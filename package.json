@@ -44,7 +44,13 @@
             {
                 "language": "javascript",
                 "scopeName": "source.js",
-                "path": "./syntaxes/JavaScript.tmLanguage.json"
+                "path": "./syntaxes/JavaScript.tmLanguage.json",
+                "embeddedLanguages": {
+                    "meta.tag.js": "jsx-tags",
+                    "meta.tag.without-attributes.js": "jsx-tags",
+                    "meta.tag.attributes.js": "javascriptreact",
+                    "meta.embedded.expression.js": "javascriptreact"
+                }
             },
             {
                 "language": "typescript",
@@ -54,7 +60,13 @@
             {
                 "language": "typescriptreact",
                 "scopeName": "source.tsx",
-                "path": "./syntaxes/TypeScriptReact.tmLanguage.json"
+                "path": "./syntaxes/TypeScriptReact.tmLanguage.json",
+                "embeddedLanguages": {
+                    "meta.tag.tsx": "jsx-tags",
+                    "meta.tag.without-attributes.tsx": "jsx-tags",
+                    "meta.tag.attributes.tsx": "typescriptreact",
+                    "meta.embedded.expression.tsx": "typescriptreact"
+                }
             }
         ]
     }
