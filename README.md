@@ -1,3 +1,5 @@
+This extension is deprecated, use JavaScript and TypeScript Nightly extension at https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-next instead.
+
 ## The Beta Version of the TypeScript Grammar 
  
 We use this extension to distribute the Beta version of our new TypeScript grammar. Please file
